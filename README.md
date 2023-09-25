@@ -1,4 +1,4 @@
-//# InRitardo
+# InRitardo
 # FUNZIONI
 
 

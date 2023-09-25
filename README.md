@@ -1,5 +1,5 @@
 # InRitardo
-#FUNZIONI
+FUNZIONI
 
 
 Front
@@ -11,3 +11,9 @@ Front
 - Registrazione/Creazione di un account
 - Recupero password o nome utente
 - Disdire una prenotazione entro un limite di tempo
+
+Back
+- Aggiunta dei mezzi di trasporto
+- Salvataggio dei mezzi aggiunti in precedenza
+- Eliminazione automatica di un mezzo se raggiunta la capienza massima
+- Salvataggio dell'account di una persona con relativa password e nome utente

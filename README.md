@@ -1,5 +1,5 @@
 # InRitardo
-# FUNZIONI
+FUNZIONI
 
 
 Front

@@ -1,7 +1,2 @@
 # AnExtraEuro
 FUNZIONI
-
-
-Front
-
-Back

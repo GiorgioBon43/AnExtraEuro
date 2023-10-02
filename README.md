@@ -8,4 +8,4 @@ FUNZIONI
 - Visualizzare quanto hanno donato al progetto
 - Visualizzare a quali fondi ho donato
 - Ricerca di un progetto o di una categoria specifica di progetti
-- Riscuotere i soldi e chiudere un fondo quando viene raggiun to l'obbbiettivo prefissato
+- Riscuotere i soldi e chiudere un fondo quando viene raggiunto l'obbbiettivo prefissato

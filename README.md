@@ -11,6 +11,7 @@ Funzioni
 - Riscuotere i soldi e chiudere un fondo quando viene raggiunto l'obbiettivo prefissato
 
 Entità
+
 Account
 - Nome
 - Password

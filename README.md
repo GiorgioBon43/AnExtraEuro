@@ -15,12 +15,12 @@ Account
 - Nome
 - Password
 - Email
-- 
+
 Progetto
 - Numero donatori
 - Descrizione
 - Fondo
 - Creatore
-- 
+
 Categoria
 - Descrizione

@@ -11,15 +11,16 @@ Funzioni
 - Riscuotere i soldi e chiudere un fondo quando viene raggiunto l'obbiettivo prefissato
 
 Entità
-
 Account
 - Nome
 - Password
 - Email
+- 
 Progetto
 - Numero donatori
 - Descrizione
 - Fondo
 - Creatore
+- 
 Categoria
 - Descrizione

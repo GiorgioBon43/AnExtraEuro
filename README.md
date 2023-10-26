@@ -2,7 +2,6 @@
 Funzioni
 
 - Creazione di un account
-- Recupero Password/Nome utente
 - Creazione di una campagna/ un progetto per crowdfunding con il quantitativo dei soldi raccimolati
 - Donare ad un crowdfunding
 - Visualizzare quanto hanno donato al progetto

@@ -11,7 +11,7 @@ FUNZIONI:
 SCHEMA LOGICO:
 
 - Account(nickname, password, email)
-- Progetto(ID, numero donatori, fondo, Account¬_nickname, Categoria_nominativo)
+- Progetto(ID, numero donatori, fondo, Account_nickname, Categoria_nominativo)
 - Categoria(nominativo)
 - Donare(Account_nickname, Progetto_ID, valore donazione)
 

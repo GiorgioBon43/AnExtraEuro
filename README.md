@@ -1,4 +1,4 @@
-FUNZIONI
+FUNZIONI:
 
 - Creazione di un account.
 - Creazione di una campagna/ un progetto per crowdfunding con il quantitativo dei soldi raccimolati.

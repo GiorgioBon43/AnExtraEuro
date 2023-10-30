@@ -1,5 +1,5 @@
 PROBLEMA:
-Pensato per chi ha necessità di trovare dei finanziatori per la sua idea di un videogioco/startUp/gioco in scatola
+Pensato per chi ha necessità di trovare dei finanziatori per la sua idea di un videogioco/startUp/gioco in scatola.
 
 SOLUZIONE:
 Creazione di sito di crowdfunding, dove chiunque, tramite un suo account personele, può donare una cifra a piacere a tutti i progetti che preferisce, anche più di una volta.
@@ -7,11 +7,11 @@ Creazione di sito di crowdfunding, dove chiunque, tramite un suo account persone
 FUNZIONI:
 
 - Creazione di un account.
-- Creazione di una campagna/ un progetto per crowdfunding con il quantitativo dei soldi raccimolati.
+- Creazione di una campagna/ un progetto per crowdfunding.
 - Donare ad un crowdfunding.
-- Visualizzare quanto hanno donato al progetto.
-- Visualizzare a quali fondi ho donato.
-- Ricerca di un progetto o di una categoria specifica di progetti![ProgettoCreazione.
+- Visualizzare quanto è stato donato al mio progetto.
+- Visualizzare i fondi ai quali ho donato.
+- Ricerca di un progetto o di una categoria specifica di progetti.
 
 ![E R](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/d500f12d-046b-48d2-a8a4-4bba07eb72cf)
 SCHEMA LOGICO:

@@ -8,3 +8,9 @@ FUNZIONI
 - Ricerca di un progetto o di una categoria specifica di progetti![ProgettoCreazione.
 
 ![E R](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/d500f12d-046b-48d2-a8a4-4bba07eb72cf)
+![ProgettoCreazione](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/a991c027-e0f4-46f4-a04e-420f9b230d3e)
+![Ricerca](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/be021493-f21c-4434-85ee-593f21bf3176)
+![Fondo](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/9b399270-e157-40fe-b2e7-fa35d246944f)
+![Account](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/68d7897a-6b31-4ae2-a3d8-21c185c52c05)
+![CreazioneAccount](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/ef19a364-846e-46cd-a0c8-acf315f884de)
+![home](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/1da93849-766e-4c1f-823a-2642fc5c04ff)

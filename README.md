@@ -17,16 +17,15 @@ Le persone che necessitano di fondi per la realizzazione della prorpia idea
 
 FUNZIONI:
 =========
-FRONT-END:
-``` markdown
-- Creazione di un account.
-- Creazione di una campagna/ un progetto per crowdfunding.
-- Donare ad un crowdfunding.
-- Visualizzare quanto è stato donato al mio progetto.
-- Visualizzare i fondi ai quali ho donato.
-- Ricerca di un progetto o di una categoria specifica di progetti.
-- Modificare il rproprio progetto, per postere eventuali avanzamenti o modifiche
-```
+> FRONT-END:
+>> - Creazione di un account.
+>> - Creazione di una campagna/ un progetto per crowdfunding.
+>> - Donare ad un crowdfunding.
+>> - Visualizzare quanto è stato donato al mio progetto.
+>> - Visualizzare i fondi ai quali ho donato.
+>> - Ricerca di un progetto o di una categoria specifica di progetti.
+>> - Modificare il rproprio progetto, per postere eventuali avanzamenti o modifiche
+
 BACK-END:
 ``` markdown
 - Eliminazione di un progetto

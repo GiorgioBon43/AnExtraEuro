@@ -1,4 +1,4 @@
-PROBLEMA:
+*PROBLEMA:
 Pensato per chi ha necessità di trovare dei finanziatori per la sua idea di un videogioco/startUp/gioco in scatola.
 
 SOLUZIONE:

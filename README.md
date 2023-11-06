@@ -18,21 +18,21 @@ Le persone che necessitano di fondi per la realizzazione della prorpia idea
 FUNZIONI:
 =========
 FRONT-END:
->> - Creazione di un account.
->> - Creazione di una campagna/ un progetto per crowdfunding.
->> - Donare ad un crowdfunding.
->> - Visualizzare quanto è stato donato al mio progetto.
->> - Visualizzare i fondi ai quali ho donato.
->> - Ricerca di un progetto o di una categoria specifica di progetti.
->> - Modificare il rproprio progetto, per postere eventuali avanzamenti o modifiche
+> - Creazione di un account.
+> - Creazione di una campagna/ un progetto per crowdfunding.
+> - Donare ad un crowdfunding.
+> - Visualizzare quanto è stato donato al mio progetto.
+> - Visualizzare i fondi ai quali ho donato.
+> - Ricerca di un progetto o di una categoria specifica di progetti.
+> - Modificare il rproprio progetto, per postere eventuali avanzamenti o modifiche
 
-> BACK-END:
->> - Eliminazione di un progetto
->> - Modificare un progetto
->> - Bloccare un account temporaneamente
->> - Eliminare un accoint
->> - Visualizzazione dei soldi che un progetto ha ricevuto e riscattato
->> - Vedere qale account ha donato e quanto ad un determinato progetto
+BACK-END:
+> - Eliminazione di un progetto
+> - Modificare un progetto
+> - Bloccare un account temporaneamente
+> - Eliminare un accoint
+> - Visualizzazione dei soldi che un progetto ha ricevuto e riscattato
+> - Vedere qale account ha donato e quanto ad un determinato progetto
 
 
 SCHEMA E/R:

@@ -1,13 +1,14 @@
 AnExtraEuro
 -----
 
-PROBLEMA:
+#PROBLEMA:
 Pensato per chi ha necessità di trovare dei finanziatori per la sua idea di un videogioco/startUp/gioco in scatola.
+========================
 
-DESCRIZIONE:
+#DESCRIZIONE:
 Creazione di sito di crowdfunding, dove chiunque, tramite un suo account personele, può donare una cifra a piacere a tutti i progetti che preferisce, anche più di una volta.
 
-TARGET:
+#TARGET:
 
 
 FUNZIONI:

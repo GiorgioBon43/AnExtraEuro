@@ -26,15 +26,14 @@ FUNZIONI:
 >> - Ricerca di un progetto o di una categoria specifica di progetti.
 >> - Modificare il rproprio progetto, per postere eventuali avanzamenti o modifiche
 
-BACK-END:
-``` markdown
-- Eliminazione di un progetto
-- Modificare un progetto
-- Bloccare un account temporaneamente
-- Eliminare un accoint
-- Visualizzazione dei soldi che un progetto ha ricevuto e riscattato
-- Vedere qale account ha donato e quanto ad un determinato progetto
-```
+> BACK-END:
+>> - Eliminazione di un progetto
+>> - Modificare un progetto
+>> - Bloccare un account temporaneamente
+>> - Eliminare un accoint
+>> - Visualizzazione dei soldi che un progetto ha ricevuto e riscattato
+>> - Vedere qale account ha donato e quanto ad un determinato progetto
+
 
 SCHEMA E/R:
 ===========

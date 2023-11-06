@@ -17,7 +17,7 @@ Le persone che necessitano di fondi per la realizzazione della prorpia idea
 
 FUNZIONI:
 =========
-> FRONT-END:
+FRONT-END:
 >> - Creazione di un account.
 >> - Creazione di una campagna/ un progetto per crowdfunding.
 >> - Donare ad un crowdfunding.

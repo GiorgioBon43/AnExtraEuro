@@ -30,7 +30,7 @@ BACK-END:
 > - Eliminazione di un progetto
 > - Modificare un progetto
 > - Bloccare un account temporaneamente
-> - Eliminare un accoint
+> - Eliminare un account
 > - Visualizzazione dei soldi che un progetto ha ricevuto e riscattato
 > - Vedere qale account ha donato e quanto ad un determinato progetto
 

@@ -2,7 +2,7 @@ const express = require('express');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
 const app = express();
-const port = 8080;
+const PORT = 4000;
 
 // creating 24 hours from milliseconds
 const oneDay = 1000 * 60 * 60 * 24;

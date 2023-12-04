@@ -1,62 +1,33 @@
 const express = require('express');
 const cookieParser = require("cookie-parser");
 const sessions = require('express-session');
+const http = require('http');
+
 const app = express();
-const port = 8080;
+const PORT = 8080;
 
 // creating 24 hours from milliseconds
 const oneDay = 1000 * 60 * 60 * 24;
 
 //session middleware
 app.use(sessions({
-    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    secret: "thisismysecrctekey",
     saveUninitialized:true,
     cookie: { maxAge: oneDay },
     resave: false
 }));
 
-// parsing dei dati
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-//serving public file
-app.use(express.static(__dirname));
-
-// cookie parser middleware
 app.use(cookieParser());
 
-//username and password
-const myusername = 'user1'
-const mypassword = 'mypassword'
-
-// a variable to save a session
-var session;
-
-
-app.get('/',(req,res) => {
-    session=req.session;
-    if(session.userid){
-        res.send("Welcome User <a href=\'/logout'>click to logout</a>");
-    }else
-    res.sendFile('views/index.html',{root:__dirname})
+app.get('/set',function(req, res){
+req.session.user = { name:'Chetan' };
+res.send('Session set');
 });
 
-
-app.post('/user',(req,res) => {
-    if(req.body.username == myusername && req.body.password == mypassword){
-        session=req.session;
-        session.userid=req.body.username;
-        console.log(req.session)
-        res.send(`Hey there, welcome <a href=\'/logout'>click to logout</a>`);
-    }
-    else{
-        res.send('Invalid username or password');
-    }
+app.get('/get',function(req, res){
+res.send(req.session.user);
 });
 
-app.get('/logout',(req,res) => {
-    req.session.destroy();
-    res.redirect('/');
+http.createServer(app).listen(3000, function(){
+console.log('Express server listening on port 3000');
 });
-
-app.listen(PORT, () => console.log(`Server Running at port ${PORT}`));

@@ -12,7 +12,7 @@ app.use(sessions({
     secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
     saveUninitialized:true,
     cookie: { maxAge: oneDay },
-    resave: false
+    resave: true
 }));
 
 // parsing dei dati
@@ -24,10 +24,6 @@ app.use(express.static(__dirname));
 
 // cookie parser middleware
 app.use(cookieParser());
-
-//username and password
-const myusername = 'user1'
-const mypassword = 'mypassword'
 
 // a variable to save a session
 var session;
@@ -41,15 +37,23 @@ app.get('/',(req,res) => {
 });
 
 
-app.post('/user',(req,res) => {
-    if(req.body.username == myusername && req.body.password == mypassword){
-        session=req.session;
-        session.userid=req.body.username;
-        console.log(req.session)
-        res.send(`Hey there, welcome <a href=\'/logout'>click to logout</a>`);
-    }
-    else{
-        res.send('Invalid username or password');
+//controllo se l'utente è già registrato
+app.post('/login',(req,res) => {
+    if(req.body.username && req.body.password){
+        //check if the user already exists
+        const query = `SELECT * FROM users WHERE username = '${req.body.username}' AND password = '${req.body.password}'`;
+        db.query(query, (err, result) => {
+            if (err) throw err;
+            if(result.length > 0){
+                session=req.session;
+                session.userid=req.body.username;
+                res.redirect('/');
+            }else{
+                res.send('Incorrect Username and/or Password!');
+            }
+        });
+    }else{
+        res.send('Please enter Username and Password!');
     }
 });
 

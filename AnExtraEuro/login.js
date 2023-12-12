@@ -17,7 +17,7 @@ app.use(sessions({
 
 // parsing dei dati
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended: true }));
 
 //serving public file
 app.use(express.static(__dirname));

@@ -37,13 +37,13 @@ BACK-END:
 
 SCHEMA E/R:
 -----------
-![E R](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/d500f12d-046b-48d2-a8a4-4bba07eb72cf)
+![ER](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/52aadf5e-2bf1-4bea-8752-530499ee7adf)
 
 SCHEMA LOGICO:
 --------------
 - Account(nickname, password, email)
-- Progetto(ID, numero donatori, fondo, Account_nickname, Categoria_nominativo)
-- Categoria(nominativo)
+- Progetto(ID, immagine, Account_nickname, Categoria_nominativo)
+- Categoria(nominativo, descrizione)
 - Donare(Account_nickname, Progetto_ID, valore donazione)
 
 GRAFICA:

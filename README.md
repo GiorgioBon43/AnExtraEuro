@@ -62,7 +62,7 @@ GRAFICA:
 Requisiti
 ------------
 
-+ MySQL Server >= 5.6
++ MySQL Server >= 5.6 (va bene anche usare XAMP https://www.apachefriends.org/it/download.html)
 + Node.js
 + Express - Install with command: npm install express --save.
 + Express Sessions - Install with command: npm install express-session --save.

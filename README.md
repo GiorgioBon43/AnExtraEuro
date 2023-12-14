@@ -72,5 +72,6 @@ Requisiti
 Run
 ----
 + cd path/del/progetto
- + node login.js
++ node login.js
++ http://localhost:3000/
 

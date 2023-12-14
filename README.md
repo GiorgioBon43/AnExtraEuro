@@ -24,7 +24,7 @@ FRONT-END:
 > - Visualizzare quanto è stato donato al mio progetto.
 > - Visualizzare i fondi ai quali ho donato.
 > - Ricerca di un progetto o di una categoria specifica di progetti.
-> - Modificare il rproprio progetto, per postere eventuali avanzamenti o modifiche
+> - Modificare il proprio progetto, per postere eventuali avanzamenti o modifiche
 
 BACK-END:
 > - Eliminazione di un progetto
@@ -32,7 +32,7 @@ BACK-END:
 > - Bloccare un account temporaneamente
 > - Eliminare un account
 > - Visualizzazione dei soldi che un progetto ha ricevuto e riscattato
-> - Vedere qale account ha donato e quanto ad un determinato progetto
+> - Vedere quale account ha donato e quanto ad un determinato progetto
 
 
 SCHEMA E/R:

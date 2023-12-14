@@ -57,3 +57,20 @@ GRAFICA:
 ![Account](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/68d7897a-6b31-4ae2-a3d8-21c185c52c05)
 ![CreazioneAccount](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/ef19a364-846e-46cd-a0c8-acf315f884de)
 ![home](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/1da93849-766e-4c1f-823a-2642fc5c04ff)
+
+
+Requisiti
+------------
+
++ MySQL Server >= 5.6
++ Node.js
++ Express - Install with command: npm install express --save.
++ Express Sessions - Install with command: npm install express-session --save.
++ MySQL for Node.js - Install with command: npm install mysql --save.
+
+
+Run
+----
++ cd path/del/progetto
+ + node login.js
+

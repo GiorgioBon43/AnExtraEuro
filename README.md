@@ -44,7 +44,7 @@ SCHEMA E/R:
 SCHEMA LOGICO:
 --------------
 - Account(nickname, password, email)
-- Progetto(ID, immagine, Account_nickname, Categoria_nominativo)
+- Progetto(ID, immagine, descrizione, Account_nickname, Categoria_nominativo)
 - Categoria(nominativo, descrizione)
 - Donare(Account_nickname, Progetto_ID, valore donazione)
 

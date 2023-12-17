@@ -71,7 +71,7 @@ Requisiti
 
 Run
 ----
-+ start Server MYSQL
++ start Server MySQL
 + cd path/del/progetto
 + node start.js
 + http://localhost:3000/

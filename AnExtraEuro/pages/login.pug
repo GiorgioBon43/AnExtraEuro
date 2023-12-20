@@ -6,19 +6,8 @@ html
     body
         div.login
             h1 Login
-            form(action="/auth", method="post", id="loginForm")
-                label(for="username")
-                    // font awesome icon
-                    i.fas.fa-user
-                    input(type="text", name="username", placeholder="Username", id="username", required)
-                
-                label(for="password")
-                    i.fas.fa-lock
-                    input(type="password", name="password", placeholder="Password", id="password", required)
-                
-                label(for="email")
-                    // font awesome icon
-                    i.fas.fa-user
-                    input(type="text", name="email", placeholder="Email", id="email", required)
-                
+            form(action="/login", method="post", id="loginForm")   
+                input(type="text", name="username", placeholder="Username", id="username", required)
+                input(type="password", name="password", placeholder="Password", id="password", required)
+                input(type="text", name="email", placeholder="Email", id="email", required)           
                 input(type="submit", value="Login")

@@ -1,18 +1,22 @@
 doctype html
 html
     head
-        link(rel="stylesheet", href="https://cdn.tailwindcss.com")
         title AnExtraEuro 
     body
-        .profile-container
-            - if (!cookiePresente) {
-                button(onclick="redirectToLogin()") Accedi
-                script.
-                    function redirectToLogin() {
-                        window.open('/login');
-                    }
-            - } else {
-                img.profile-img(src='url_dell_immagine', alt='Immagine Profilo')
-                .profile-info
-                    h5= utente.nome + ' ' + utente.cognome
-            - }
+        - if (!cookiePresente) {
+            button(onclick="redirectToLogin()") Accedi
+            script.
+                function redirectToLogin() {
+                    // Effettua una richiesta HTTP GET a /login
+                    fetch('/login', {
+                        method: 'GET',
+                    }).then(() => {
+                        // Dopo la richiesta, reindirizza l'utente a /login
+                        window.location.href = '/login';
+                    });
+                }
+        - } else {
+            img.profile-img(src='url_dell_immagine', alt='Immagine Profilo')
+            .profile-info
+                h5= utente.nome + ' ' + utente.cognome
+        - }

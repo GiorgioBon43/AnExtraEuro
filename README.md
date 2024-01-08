@@ -3,7 +3,7 @@ AnExtraEuro
 
 PROBLEMA:
 ---------
-La mancata assenzqa di fondi o finanziatori per la realizzazione di una propria start up, o un idea di qualunque genere, che sia o meno a scopo lucrativo
+La mancanza di fondi o finanziatori per la realizzazione di una propria start up, o un idea di qualunque genere, che sia o meno a scopo lucrativo
 
 DESCRIZIONE SOLUZIONE:
 ----------------------

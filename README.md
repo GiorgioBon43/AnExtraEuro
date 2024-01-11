@@ -66,6 +66,7 @@ Requisiti
 + Node.js
 + Express - Install with command: npm install express --save.
 + Express Sessions - Install with command: npm install express-session --save.
++ Uuid - Install with command: npm install uuid --save.
 + MySQL for Node.js - Install with command: npm install mysql --save.
 
 

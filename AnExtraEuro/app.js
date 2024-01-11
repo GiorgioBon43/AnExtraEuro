@@ -3,9 +3,9 @@ import session from 'express-session';
 import morgan from 'morgan';
 import path from 'path';
 import * as url from 'url';
+//import cookieParser from 'cookie-parser'
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
-
 const app = express();
 
 app.set('view engine', 'pug');
@@ -19,26 +19,32 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, 'loginAndRegister')));
 app.use(
   session({
-    secret: 'secret',
+    name:'SessionCookie',
+    secret: 'Secret',
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
+    saveUninitialized: false,
+    cookie: { secure: false, expires:60000 }
   })
 );
 
 // Aggiorna questo middleware per servire i file statici dalla directory 'loginAndRegister'
 app.use('/loginAndRegister', express.static(path.join(__dirname, 'loginAndRegister')));
-
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
 app.get('/', (req, res) => {
-  res.render(specificViewPath);
+  if(req.session.username === true){
+    res.render(specificViewPath);
+  }else{
+    res.send('<h1>sei acceduto</h1>');
+    res.render(specificViewPath);
+  }
 });
 
 app.get('/login', (req, res) => {
+  req.session.username= false; 
   res.render(specificViewPath2);
 });
 
@@ -47,10 +53,9 @@ app.get('/sigIn', (req, res) => {
 });
 
 app.get('/login/log', (req, res) => {
-    const { username, email } = req.query; // Get the data from the form
-    const datiDaPassare = { username, email };
-    res.cookie('cookiePresente', true);
-    res.render(specificViewPath2, { username, email });
+  req.session.username= true; 
+  res.send('<h1>sei acceduto</h1>');
+  res.render(specificViewPath);
 });
 
 export default app;

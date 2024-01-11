@@ -2,21 +2,16 @@ doctype html
 html
     head
         title AnExtraEuro 
-    body
-        - if (!cookiePresente) {
-            button(onclick="redirectToLogin()") Accedi
-            script.
-                function redirectToLogin() {
-                    // Effettua una richiesta HTTP GET a /login
-                    fetch('/login', {
-                        method: 'GET',
-                    }).then(() => {
-                        // Dopo la richiesta, reindirizza l'utente a /login
-                        window.location.href = '/login';
-                    });
-                }
-        - } else {
-            img.profile-img(src='url_dell_immagine', alt='Immagine Profilo')
-            .profile-info
-                h5= utente.nome + ' ' + utente.cognome
-        - }
+    body             
+        button(onclick="redirectToLogin()") Accedi
+        script.
+            function redirectToLogin() {
+                // Effettua una richiesta HTTP GET a /login
+                fetch('/login', {
+                    method: 'GET',
+                }).then(() => {
+                    // Dopo la richiesta, reindirizza l'utente a /login
+                    window.location.href = '/login';
+                });
+            }
+

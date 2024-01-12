@@ -12,7 +12,7 @@ app.set('view engine', 'pug');
 
 const specificViewPath = path.join(__dirname, 'pages', 'index.pug');
 const specificViewPath2 = path.join(__dirname, 'pages', 'login.pug');
-const specificViewPath3 = path.join(__dirname, 'pages', 'register.pug');
+const specificViewPath3 = path.join(__dirname, 'pages', 'signIn.pug');
 
 // global middlewares
 app.use(morgan('dev'));
@@ -48,31 +48,62 @@ app.get('/sigIn', (req, res) => {
   res.render(specificViewPath3);
 });
 
-app.get('/login/log', (req, res) => {});
+app.get('/login/log', (req, res) => {
+  res.render(specificViewPath, { loggedIn: req.session.loggedIn });
+});
 
-app.post('/login/log', express.json(), (req, res) => { // Modifica questa linea
-	console.log('Dati ricevuti dallo zio pino:', req.body);
+app.get('/sigIn/create', (req, res) => {
+  res.render(specificViewPath);
+});
+
+app.post('/login/log', express.json(), (req, res) => {
   const { username, email, password } = req.body;
   // Esegui la query SQL per verificare se i dati esistono nel database
   const query = 'SELECT * FROM ACCOUNT WHERE NICKNAME = ? AND EMAIL = ? AND PASSWORD = ?';
-  console.log('Query SQL:', query);
   database.query(query, [username, email, password], (error, results) => {
-    console.log('Sono dentro la query');
     if (error) {
-        console.error('Errore nella query SQL:', error);
-        return res.status(500).send('Errore interno del server');
+      console.error('Errore nella query SQL:', error);
+      return res.status(500).send('Errore interno del server');
     }
 
     if (results.length > 0) {
-        // Esegui il reindirizzamento o l'invio della risposta al client
-        req.session.loggedIn = true;
-        res.render(specificViewPath, { loggedIn: req.session.loggedIn });
+      req.session.loggedIn = true;
+      // Reindirizza solo dopo che la query ha restituito i risultati
+      return res.render(specificViewPath, { loggedIn: req.session.loggedIn });
     } else {
-        // I dati non esistono nel database
-        res.status(404).send('I dati non esistono nel database');
+      res.status(404).send('I dati non esistono nel database');
     }
   });
-  console.log('Sono fuori la query');
 });
+
+app.post('/sigIn/create', express.json(), (req, res) => {
+  const { username, email, password } = req.body;
+
+  // Controlla se l'email esiste già nel database
+  const emailCheckQuery = 'SELECT * FROM ACCOUNT WHERE EMAIL = ?';
+  database.query(emailCheckQuery, [email], (emailCheckError, emailCheckResults) => {
+    if (emailCheckError) {
+      console.error('Errore nella query di verifica dell\'email:', emailCheckError);
+      return res.status(500).send('Errore interno del server');
+    }
+
+    if (emailCheckResults.length > 0) {
+      // L'email esiste già nel database
+      return res.status(409).send('L\'email esiste già nel database');
+    } else {
+      // L'email non esiste nel database, esegui la registrazione
+      const signUpQuery = 'INSERT INTO ACCOUNT (NICKNAME, EMAIL, PASSWORD) VALUES (?, ?, ?)';
+      database.query(signUpQuery, [username, email, password], (signUpError, signUpResults) => {
+        if (signUpError) {
+          console.error('Errore durante la registrazione:', signUpError);
+          return res.status(500).send('Errore interno del server');
+        }
+        return res.render(specificViewPath);
+      });
+    }
+  });
+});
+
+
 
 export default app;

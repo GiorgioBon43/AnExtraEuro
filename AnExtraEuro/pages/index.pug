@@ -2,9 +2,13 @@ doctype html
 html
     head
         title AnExtraEuro 
+        script(src="https://cdn.tailwindcss.com")
     body
         if !loggedIn
-            button(onclick="redirectToLogin()") Accedi
+            div
+                button(onclick="redirectToLogin()") Accedi
+            div
+                button(onclick="redirectToRegister()") Registrati
         else
             p Sei loggato
         script.
@@ -15,5 +19,15 @@ html
                 }).then(() => {
                     // Dopo la richiesta, reindirizza l'utente a /login
                     window.location.href = '/login';
+                });
+            }
+
+            function redirectToRegister() {
+                // Effettua una richiesta HTTP GET a /register
+                fetch('/signIn', {
+                    method: 'GET',
+                }).then(() => {
+                    // Dopo la richiesta, reindirizza l'utente a /register
+                    window.location.href = '/sigIn';
                 });
             }

@@ -6,13 +6,13 @@ document.querySelector('form').addEventListener('submit', async function (e) {
 
     console.log(username, email, password);
 
-    const res = await fetch('/login/log', {
+    const res = await fetch('/sigIn/create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ username, email, password }),
     }).then(() => {
-        window.location.href = '/login/log';
+        window.location.href = '/sigIn/create';
     });
 });

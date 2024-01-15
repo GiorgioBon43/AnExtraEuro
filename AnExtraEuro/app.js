@@ -59,10 +59,10 @@ app.get('/sigIn/create', (req, res) => {
 });
 
 app.get('/campainCreator', (req, res) => {
-  res.render(specificViewPath4);
+  res.render(specificViewPath4, { data: req.session.data });
 });
 
-app.get('/campainCreator/create', (req, res) => {
+app.get('/campaignCreator/create', (req, res) => {
   res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
 });
 
@@ -118,17 +118,20 @@ app.post('/campaignCreator/create', express.json(), (req, res) => {
   const { nomeProgetto, obbiettivo, categoria, descrizione } = req.body;
   // Procedi con l'inserimento della nuova riga
   const insertQuery = 'INSERT INTO PROGETTO (NOME, DESCRIZIONE, ACCOUNT_NICKNAME, CATEGORIA_NOMINATIVO, OBBIETTIVO) VALUES (?, ?, ?, ?, ?)';
-  database.query(insertQuery, [nomeProgetto, descrizione, 'gino', categoria, obbiettivo], (insertError, insertResults) => {
+  database.query(insertQuery, [nomeProgetto, descrizione, req.session.data, categoria, obbiettivo], (insertError, insertResults) => {
     if (insertError) {
+      console.log(insertError);
       // Gestisci l'errore durante l'inserimento
       return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
     }
-
-    if(insertResults.length > 0){
-      return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
-    }else{
-      return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
-    }
+      console.log(insertQuery);
+      console.log(nomeProgetto, descrizione, req.session.data, categoria, obbiettivo);
+      console.log(insertResults);
+      if (insertResults.length > 0) {
+        return res.status(404).send('I dati non esistono nel database');
+      } else {
+        return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
+      }
   });
 });
 

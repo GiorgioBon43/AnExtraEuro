@@ -5,15 +5,13 @@ document.querySelector('form').addEventListener('submit', async function (e) {
     const categoria = document.querySelector("input[name='categoria']").value;
     const descrizione = document.querySelector("input[name='descrizione']").value;
 
-    console.log(nomeProgetto, obbiettivo, categoria, descrizione);
-
-    const res = await fetch('/campainCreator/create', {
+    const res = await fetch('/campaignCreator/create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ nomeProgetto, obbiettivo, categoria, descrizione}),
     }).then(() => {
-        window.location.href = '/campainCreator/create';
+        window.location.href = '/campaignCreator/create';
     });
 });

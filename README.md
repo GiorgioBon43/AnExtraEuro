@@ -62,7 +62,7 @@ GRAFICA:
 Requisiti
 ------------
 
-+ MySQL Server >= 5.6 (va bene anche usare XAMP https://www.apachefriends.org/it/download.html)
++ MySQL Server >= 5.6 (you can install XAMP https://www.apachefriends.org/it/download.html)
 + Node.js
 + Express - Install with command: npm install express --save.
 + Express Sessions - Install with command: npm install express-session --save.
@@ -71,8 +71,9 @@ Requisiti
 
 Run
 ----
-+ start Server MySQL
-+ cd path/del/progetto
-+ node start.js
++ start Server MySQL from XAMP 
++ (from the command promt):
++ + cd path/del/progetto
++ + node start.js
 + http://localhost:3000/
 

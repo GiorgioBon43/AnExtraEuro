@@ -13,6 +13,7 @@ app.set('view engine', 'pug');
 const specificViewPath = path.join(__dirname, 'pages', 'index.pug');
 const specificViewPath2 = path.join(__dirname, 'pages', 'login.pug');
 const specificViewPath3 = path.join(__dirname, 'pages', 'signIn.pug');
+const specificViewPath4 = path.join(__dirname, 'pages', 'campainCreator.pug');
 
 // global middlewares
 app.use(morgan('dev'));
@@ -37,7 +38,8 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
   req.session.loggedIn = req.session.loggedIn || false;
-  res.render(specificViewPath, { loggedIn: req.session.loggedIn });
+  req.session.data = req.session.data || null;
+  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
 });
 
 app.get('/login', (req, res) => {
@@ -49,11 +51,19 @@ app.get('/sigIn', (req, res) => {
 });
 
 app.get('/login/log', (req, res) => {
-  res.render(specificViewPath, { loggedIn: req.session.loggedIn });
+  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
 });
 
 app.get('/sigIn/create', (req, res) => {
   res.render(specificViewPath);
+});
+
+app.get('/campainCreator', (req, res) => {
+  res.render(specificViewPath4);
+});
+
+app.get('/campainCreator/create', (req, res) => {
+  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
 });
 
 app.post('/login/log', express.json(), (req, res) => {
@@ -68,8 +78,9 @@ app.post('/login/log', express.json(), (req, res) => {
 
     if (results.length > 0) {
       req.session.loggedIn = true;
+      req.session.data = username;
       // Reindirizza solo dopo che la query ha restituito i risultati
-      return res.render(specificViewPath, { loggedIn: req.session.loggedIn });
+      return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
     } else {
       res.status(404).send('I dati non esistono nel database');
     }
@@ -78,7 +89,6 @@ app.post('/login/log', express.json(), (req, res) => {
 
 app.post('/sigIn/create', express.json(), (req, res) => {
   const { username, email, password } = req.body;
-
   // Controlla se l'email esiste già nel database
   const emailCheckQuery = 'SELECT * FROM ACCOUNT WHERE EMAIL = ?';
   database.query(emailCheckQuery, [email], (emailCheckError, emailCheckResults) => {
@@ -104,6 +114,22 @@ app.post('/sigIn/create', express.json(), (req, res) => {
   });
 });
 
+app.post('/campaignCreator/create', express.json(), (req, res) => {
+  const { nomeProgetto, obbiettivo, categoria, descrizione } = req.body;
+  // Procedi con l'inserimento della nuova riga
+  const insertQuery = 'INSERT INTO PROGETTO (NOME, DESCRIZIONE, ACCOUNT_NICKNAME, CATEGORIA_NOMINATIVO, OBBIETTIVO) VALUES (?, ?, ?, ?, ?)';
+  database.query(insertQuery, [nomeProgetto, descrizione, 'gino', categoria, obbiettivo], (insertError, insertResults) => {
+    if (insertError) {
+      // Gestisci l'errore durante l'inserimento
+      return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
+    }
 
+    if(insertResults.length > 0){
+      return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
+    }else{
+      return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
+    }
+  });
+});
 
 export default app;

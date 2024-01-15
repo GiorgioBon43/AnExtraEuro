@@ -10,7 +10,10 @@ html
             div
                 button(onclick="redirectToRegister()") Registrati
         else
-            p Sei loggato
+            div(style="position: absolute; top: 10px; right: 10px;")
+                p #{data} 
+            div(style="position: absolute; top: 30px; right: 10px;")
+                button(onclick="redirectToCreateCampain()") Crea un tuo fondo 
         script.
             function redirectToLogin() {
                 // Effettua una richiesta HTTP GET a /login
@@ -29,5 +32,15 @@ html
                 }).then(() => {
                     // Dopo la richiesta, reindirizza l'utente a /register
                     window.location.href = '/sigIn';
+                });
+            }
+
+            function redirectToCreateCampain() {
+                // Effettua una richiesta HTTP GET a /register
+                fetch('/campainCreator', {
+                    method: 'GET',
+                }).then(() => {
+                    // Dopo la richiesta, reindirizza l'utente a /register
+                    window.location.href = '/campainCreator';
                 });
             }

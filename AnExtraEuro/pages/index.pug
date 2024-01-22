@@ -5,15 +5,19 @@ html
         script(src="https://cdn.tailwindcss.com")
     body
         if !loggedIn
-            div
+            div(style="position: absolute; top: 10px; right: 10px;")
                 button(onclick="redirectToLogin()") Accedi
-            div
+            div(style="position: absolute; top: 50px; right: 10px;")
                 button(onclick="redirectToRegister()") Registrati
         else
             div(style="position: absolute; top: 10px; right: 10px;")
-                p #{data} 
-            div(style="position: absolute; top: 30px; right: 10px;")
-                button(onclick="redirectToCreateCampain()") Crea un tuo fondo 
+                p(style="color: red; font-weight: bold;") #{data}
+            div(style="position: absolute; top: 50px; right: 10px;")
+                button(onclick="redirectToCreateCampain()") Crea un tuo fondo
+            div(style="position: absolute; top: 90px; right: 10px;")
+                button(onclick="redirectToMyCampain()") Visualizza i tuoi fondi
+            div(style="position: absolute; top: 130px; right: 10px;")
+                button(onclick="redirectToLogout()") Logout
         script.
             function redirectToLogin() {
                 // Effettua una richiesta HTTP GET a /login
@@ -36,11 +40,31 @@ html
             }
 
             function redirectToCreateCampain() {
-                // Effettua una richiesta HTTP GET a /register
+                // Effettua una richiesta HTTP GET a /campainCreator
                 fetch('/campainCreator', {
                     method: 'GET',
                 }).then(() => {
-                    // Dopo la richiesta, reindirizza l'utente a /register
+                    // Dopo la richiesta, reindirizza l'utente a /campainCreator
                     window.location.href = '/campainCreator';
+                });
+            }
+
+            function redirectToMyCampain(){
+                // Effettua una richiesta HTTP GET a /myCampain
+                fetch('/myCampain', {
+                    method: 'GET',
+                }).then(() => {
+                    // Dopo la richiesta, reindirizza l'utente a /myCampain
+                    window.location.href = '/myCampain';
+                });
+            }
+
+            function redirectToLogout(){
+                // Effettua una richiesta HTTP GET a /logout
+                fetch('/logout', {
+                    method: 'GET',
+                }).then(() => {
+                    // Dopo la richiesta, reindirizza l'utente a /logout
+                    window.location.href = '/logout';
                 });
             }

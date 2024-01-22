@@ -14,6 +14,7 @@ const specificViewPath = path.join(__dirname, 'pages', 'index.pug');
 const specificViewPath2 = path.join(__dirname, 'pages', 'login.pug');
 const specificViewPath3 = path.join(__dirname, 'pages', 'signIn.pug');
 const specificViewPath4 = path.join(__dirname, 'pages', 'campainCreator.pug');
+const specificViewPath5 = path.join(__dirname, 'pages', 'myCampain.pug');
 
 // global middlewares
 app.use(morgan('dev'));
@@ -50,6 +51,18 @@ app.get('/sigIn', (req, res) => {
   res.render(specificViewPath3);
 });
 
+app.get('/logout', (req, res) => {
+  // Usa il metodo destroy per eliminare la sessione
+  req.session.destroy(err => {
+    if (err) {
+      console.error('Errore durante la distruzione della sessione:', err);
+      res.status(500).send('Errore durante la distruzione della sessione');
+    } else {
+      res.redirect('/');
+    }
+  });
+});
+
 app.get('/login/log', (req, res) => {
   res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
 });
@@ -63,14 +76,33 @@ app.get('/campainCreator', (req, res) => {
 });
 
 app.get('/campaignCreator/create', (req, res) => {
-  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
+  res.render(specificViewPath, {loggedIn: req.session.loggedIn, data: req.session.data });
+});
+
+app.get('/myCampain', (req, res) => {
+  const sqlQuery = `SELECT * FROM PROGETTO WHERE ACCOUNT_NICKNAME = ?`;
+  database.query(sqlQuery, [req.session.data], (err, results) => {
+    if (err) {
+      console.error('Errore nella query SQL:', err);
+      throw err;
+    }
+
+    let htmlOutput = "";
+    results.forEach((row) => {
+      htmlOutput += `NOME: ${row.NOME} DESCRIZIONE: ${row.DESCRIZIONE}`;
+      htmlOutput += "\n";
+    });
+
+    res.render(specificViewPath5, {data2: htmlOutput, data: req.session.data});
+  });
+
 });
 
 app.post('/login/log', express.json(), (req, res) => {
   const { username, email, password } = req.body;
   // Esegui la query SQL per verificare se i dati esistono nel database
-  const query = 'SELECT * FROM ACCOUNT WHERE NICKNAME = ? AND EMAIL = ? AND PASSWORD = ?';
-  database.query(query, [username, email, password], (error, results) => {
+  const query = 'SELECT * FROM ACCOUNT WHERE NICKNAME = ? AND PASSWORD = ?';
+  database.query(query, [username, password], (error, results) => {
     if (error) {
       console.error('Errore nella query SQL:', error);
       return res.status(500).send('Errore interno del server');
@@ -99,7 +131,7 @@ app.post('/sigIn/create', express.json(), (req, res) => {
 
     if (emailCheckResults.length > 0) {
       // L'email esiste già nel database
-      return res.status(409).send('L\'email esiste già nel database');
+      return res.status(500).send('L\'email esiste già nel database');
     } else {
       // L'email non esiste nel database, esegui la registrazione
       const signUpQuery = 'INSERT INTO ACCOUNT (NICKNAME, EMAIL, PASSWORD) VALUES (?, ?, ?)';
@@ -116,21 +148,16 @@ app.post('/sigIn/create', express.json(), (req, res) => {
 
 app.post('/campaignCreator/create', express.json(), (req, res) => {
   const { nomeProgetto, obbiettivo, categoria, descrizione } = req.body;
-  // Procedi con l'inserimento della nuova riga
   const insertQuery = 'INSERT INTO PROGETTO (NOME, DESCRIZIONE, ACCOUNT_NICKNAME, CATEGORIA_NOMINATIVO, OBBIETTIVO) VALUES (?, ?, ?, ?, ?)';
   database.query(insertQuery, [nomeProgetto, descrizione, req.session.data, categoria, obbiettivo], (insertError, insertResults) => {
     if (insertError) {
       console.log(insertError);
-      // Gestisci l'errore durante l'inserimento
       return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
     }
-      console.log(insertQuery);
-      console.log(nomeProgetto, descrizione, req.session.data, categoria, obbiettivo);
-      console.log(insertResults);
       if (insertResults.length > 0) {
-        return res.status(404).send('I dati non esistono nel database');
-      } else {
         return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
+      } else {
+        return res.status(404).send('I dati non esistono nel database');
       }
   });
 });

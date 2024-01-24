@@ -51,11 +51,11 @@ html
 
             function redirectToMyCampain(){
                 // Effettua una richiesta HTTP GET a /myCampain
-                fetch('/myCampain', {
+                fetch('/myCampains', {
                     method: 'GET',
                 }).then(() => {
                     // Dopo la richiesta, reindirizza l'utente a /myCampain
-                    window.location.href = '/myCampain';
+                    window.location.href = '/myCampains';
                 });
             }
 

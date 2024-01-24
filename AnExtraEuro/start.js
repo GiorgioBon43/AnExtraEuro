@@ -1,4 +1,3 @@
-// start.js
 import app from './app.js';
 import database from './config/dataBase.js';
 

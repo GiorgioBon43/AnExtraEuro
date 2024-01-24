@@ -17,12 +17,27 @@ html
 
             label(for="categoria")
                 i.fas.fa-user
-                input(type="text", name="categoria", placeholder="Categoria", required)
+                select(name="categoria", required)
+                    option(value="") Seleziona una categoria
+                    script.
+                        fetch('/categorie')
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Dati ricevuti:', data);
+                                const select = document.querySelector('select[name="categoria"]');
+                                data.categorie.forEach(categoria => {
+                                    const option = document.createElement('option');
+                                    option.value = categoria;
+                                    option.text = categoria;
+                                    select.appendChild(option);
+                                });
+                            })
+                            .catch(error => console.error('Errore nel recupero delle categorie:', error));
 
             label(for="descrizione")
                 i.fas.fa-user
                 input(type="text", name="descrizione", placeholder="Descrizione", required)
 
-            input(type="submit" value ="Crea")
+            input(type="submit" value="Crea")
         
         script(src="loginAndRegister/js/campainCreator.js")

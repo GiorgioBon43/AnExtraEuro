@@ -14,7 +14,8 @@ const specificViewPath = path.join(__dirname, 'pages', 'index.pug');
 const specificViewPath2 = path.join(__dirname, 'pages', 'login.pug');
 const specificViewPath3 = path.join(__dirname, 'pages', 'signIn.pug');
 const specificViewPath4 = path.join(__dirname, 'pages', 'campainCreator.pug');
-const specificViewPath5 = path.join(__dirname, 'pages', 'myCampain.pug');
+const specificViewPath5 = path.join(__dirname, 'pages', 'myCampains.pug');
+const specificViewPath6 = path.join(__dirname, 'pages', 'viewCampain.pug');
 
 // global middlewares
 app.use(morgan('dev'));
@@ -79,23 +80,44 @@ app.get('/campaignCreator/create', (req, res) => {
   res.render(specificViewPath, {loggedIn: req.session.loggedIn, data: req.session.data });
 });
 
-app.get('/myCampain', (req, res) => {
-  const sqlQuery = `SELECT * FROM PROGETTO WHERE ACCOUNT_NICKNAME = ?`;
-  database.query(sqlQuery, [req.session.data], (err, results) => {
+app.get('/categorie', (req, res) => {
+  const query = 'SELECT NOMINATIVO FROM CATEGORIA';
+
+  database.query(query, (err, result) => {
+    if (err) {
+      console.error('Errore nella query:', err);
+      res.status(500).send('Errore del server');
+    } else {
+      const categorie = result.map(row => row.NOMINATIVO);
+      res.json({ categorie });
+    }
+  });
+});
+
+app.get('/myCampains', (req, res) => {
+  const query = `SELECT * FROM PROGETTO WHERE ACCOUNT_NICKNAME = ?`;
+  database.query(query, [req.session.data], (err, results) => {
     if (err) {
       console.error('Errore nella query SQL:', err);
       throw err;
     }
-
-    let htmlOutput = "";
-    results.forEach((row) => {
-      htmlOutput += `NOME: ${row.NOME} DESCRIZIONE: ${row.DESCRIZIONE}`;
-      htmlOutput += "\n";
-    });
-
-    res.render(specificViewPath5, {data2: htmlOutput, data: req.session.data});
+    res.render(specificViewPath5, { campaigns: results, data: req.session.data });
   });
+});
 
+app.get('/viewCampaign/:id', (req, res) => {
+  const campaignId = req.params.id;
+  const query = 'SELECT * FROM PROGETTO WHERE ID = ?';
+
+  database.query(query, [campaignId], (err, result) => {
+    if (err) {
+      console.error('Errore nella query SQL:', err);
+      return res.status(500).send('Errore del server');
+    }
+
+    const projectData = result[0];
+    res.render(specificViewPath6, {projectData: projectData, data: req.session.data });
+  });
 });
 
 app.post('/login/log', express.json(), (req, res) => {
@@ -111,7 +133,6 @@ app.post('/login/log', express.json(), (req, res) => {
     if (results.length > 0) {
       req.session.loggedIn = true;
       req.session.data = username;
-      // Reindirizza solo dopo che la query ha restituito i risultati
       return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
     } else {
       res.status(404).send('I dati non esistono nel database');
@@ -159,6 +180,21 @@ app.post('/campaignCreator/create', express.json(), (req, res) => {
       } else {
         return res.status(404).send('I dati non esistono nel database');
       }
+  });
+});
+
+app.delete('/deleteCampaign/:id', (req, res) => {
+  const campaignId = req.params.id;
+  const query = 'DELETE FROM PROGETTO WHERE ID = ?';
+  
+  database.query(query, [campaignId], (err, result) => {
+    if (err) {
+      console.error('Errore nella query SQL:', err);
+      return res.status(500).json({ error: 'Errore nella query SQL' });
+    }
+
+    console.log('Riga eliminata con successo:', result);
+    res.json({ message: 'Campagna eliminata con successo' });
   });
 });
 

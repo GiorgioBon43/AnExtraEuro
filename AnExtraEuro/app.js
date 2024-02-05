@@ -16,6 +16,7 @@ const specificViewPath3 = path.join(__dirname, 'pages', 'signIn.pug');
 const specificViewPath4 = path.join(__dirname, 'pages', 'campainCreator.pug');
 const specificViewPath5 = path.join(__dirname, 'pages', 'myCampains.pug');
 const specificViewPath6 = path.join(__dirname, 'pages', 'viewCampain.pug');
+const specificViewPath7 = path.join(__dirname, 'pages', 'createCategories.pug');
 
 // global middlewares
 app.use(morgan('dev'));
@@ -39,9 +40,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  req.session.loggedIn = req.session.loggedIn || false;
-  req.session.data = req.session.data || null;
-  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
+  res.render(specificViewPath, {loggedIn: req.session.loggedIn});
 });
 
 app.get('/login', (req, res) => {
@@ -65,7 +64,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/login/log', (req, res) => {
-  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
+  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
 });
 
 app.get('/sigIn/create', (req, res) => {
@@ -77,7 +76,15 @@ app.get('/campainCreator', (req, res) => {
 });
 
 app.get('/campaignCreator/create', (req, res) => {
-  res.render(specificViewPath, {loggedIn: req.session.loggedIn, data: req.session.data });
+  res.redirect('/login/log');
+});
+
+app.get('/createCategories', (req, res) => {
+  res.render(specificViewPath7, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
+});
+
+app.get('/createCategories/create', (req, res) => { 
+  res.redirect('/login/log');
 });
 
 app.get('/categorie', (req, res) => {
@@ -101,7 +108,7 @@ app.get('/myCampains', (req, res) => {
       console.error('Errore nella query SQL:', err);
       throw err;
     }
-    res.render(specificViewPath5, { campaigns: results, data: req.session.data });
+    res.render(specificViewPath5, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato, campaigns: results });
   });
 });
 
@@ -121,19 +128,23 @@ app.get('/viewCampaign/:id', (req, res) => {
 });
 
 app.post('/login/log', express.json(), (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, password } = req.body;
   // Esegui la query SQL per verificare se i dati esistono nel database
   const query = 'SELECT * FROM ACCOUNT WHERE NICKNAME = ? AND PASSWORD = ?';
-  database.query(query, [username, password], (error, results) => {
+  database.query(query, [username, password], (error, result) => {
     if (error) {
       console.error('Errore nella query SQL:', error);
       return res.status(500).send('Errore interno del server');
     }
 
-    if (results.length > 0) {
-      req.session.loggedIn = true;
-      req.session.data = username;
-      return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
+    if(result.length > 0){      
+      req.session.loggedIn = req.session.loggedIn || true;
+      req.session.data = req.session.data || username;
+      req.session.abilitato = req.session.abilitato || false;
+      if(result[0].ABILITATO === 1){
+        req.session.abilitato = true;
+      }
+      return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
     } else {
       res.status(404).send('I dati non esistono nel database');
     }
@@ -176,7 +187,23 @@ app.post('/campaignCreator/create', express.json(), (req, res) => {
       return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
     }
       if (insertResults.length > 0) {
-        return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data });
+        return res.redirect('/login/log');
+      } else {
+        return res.status(404).send('I dati non esistono nel database');
+      }
+  });
+});
+
+app.post('/createCategories/create', (req, res) => { 
+  const { nomeCategoria, descrizione } = req.body;
+  const insertQuery = 'INSERT INTO CATEGORIA (NOMINATIVO, DESCRIZIONE) VALUES (?, ?)';
+  database.query(insertQuery, [nomeCategoria, descrizione], (insertError, insertResults) => {
+    if (insertError) {
+      console.log(insertError);
+      return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
+    }
+      if (insertResults.length > 0) {
+        return res.redirect('/login/log');
       } else {
         return res.status(404).send('I dati non esistono nel database');
       }
@@ -192,8 +219,6 @@ app.delete('/deleteCampaign/:id', (req, res) => {
       console.error('Errore nella query SQL:', err);
       return res.status(500).json({ error: 'Errore nella query SQL' });
     }
-
-    console.log('Riga eliminata con successo:', result);
     res.json({ message: 'Campagna eliminata con successo' });
   });
 });

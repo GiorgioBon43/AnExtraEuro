@@ -18,6 +18,9 @@ html
                 button(onclick="redirectToMyCampain()") Visualizza i tuoi fondi
             div(style="position: absolute; top: 130px; right: 10px;")
                 button(onclick="redirectToLogout()") Logout
+            if admin 
+                div(style="position: absolute; top: 170px; right: 10px;")
+                    button(onclick="createCategories()") Aggiungi una categoria 
         script.
             function redirectToLogin() {
                 // Effettua una richiesta HTTP GET a /login
@@ -67,4 +70,14 @@ html
                     // Dopo la richiesta, reindirizza l'utente a /logout
                     window.location.href = '/logout';
                 });
+            }
+
+            function createCategories(){
+                // Effettua una richiesta HTTP GET a /createCategories
+                fetch('/createCategories', {
+                    method: 'GET',
+                }).then(() => {
+                    // Dopo la richiesta, reindirizza l'utente a /createCategories
+                    window.location.href = '/createCategories';
+                })
             }

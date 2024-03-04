@@ -67,6 +67,7 @@ Requisiti
 + Express - Install with command: npm install express --save.
 + Express Sessions - Install with command: npm install express-session --save.
 + MySQL for Node.js - Install with command: npm install mysql --save.
++ React latest version -  Install with command: npm i react@latest react-dom@latest
 
 
 Run

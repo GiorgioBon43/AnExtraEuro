@@ -4,80 +4,23 @@ html
         title AnExtraEuro 
         script(src="https://cdn.tailwindcss.com")
     body
-        if !loggedIn
-            div(style="position: absolute; top: 10px; right: 10px;")
-                button(onclick="redirectToLogin()") Accedi
-            div(style="position: absolute; top: 50px; right: 10px;")
-                button(onclick="redirectToRegister()") Registrati
-        else
-            div(style="position: absolute; top: 10px; right: 10px;")
-                p(style="color: red; font-weight: bold;") #{data}
-            div(style="position: absolute; top: 50px; right: 10px;")
-                button(onclick="redirectToCreateCampain()") Crea un tuo fondo
-            div(style="position: absolute; top: 90px; right: 10px;")
-                button(onclick="redirectToMyCampain()") Visualizza i tuoi fondi
-            div(style="position: absolute; top: 130px; right: 10px;")
-                button(onclick="redirectToLogout()") Logout
-            if admin 
+        form
+            if !loggedIn
+                div(style="position: absolute; top: 10px; right: 10px;")
+                    button(onclick="redirectToLogin()") Accedi
+                div(style="position: absolute; top: 50px; right: 10px;")
+                    button(onclick="redirectToRegister()") Registrati
+            else
+                div(style="position: absolute; top: 10px; right: 10px;")
+                    p(style="color: red; font-weight: bold;") #{data}
+                div(style="position: absolute; top: 50px; right: 10px;")
+                    button(onclick="redirectToCreateCampain()") Crea un tuo fondo
+                div(style="position: absolute; top: 90px; right: 10px;")
+                    button(onclick="redirectToMyCampain()") Visualizza i tuoi fondi
+                if admin 
+                    div(style="position: absolute; top: 130px; right: 10px;")
+                        button(onclick="createCategories()") Aggiungi una categoria 
                 div(style="position: absolute; top: 170px; right: 10px;")
-                    button(onclick="createCategories()") Aggiungi una categoria 
-        script.
-            function redirectToLogin() {
-                // Effettua una richiesta HTTP GET a /login
-                fetch('/login', {
-                    method: 'GET',
-                }).then(() => {
-                    // Dopo la richiesta, reindirizza l'utente a /login
-                    window.location.href = '/login';
-                });
-            }
+                    button(onclick="redirectToLogout()") Logout
 
-            function redirectToRegister() {
-                // Effettua una richiesta HTTP GET a /register
-                fetch('/signIn', {
-                    method: 'GET',
-                }).then(() => {
-                    // Dopo la richiesta, reindirizza l'utente a /register
-                    window.location.href = '/sigIn';
-                });
-            }
-
-            function redirectToCreateCampain() {
-                // Effettua una richiesta HTTP GET a /campainCreator
-                fetch('/campainCreator', {
-                    method: 'GET',
-                }).then(() => {
-                    // Dopo la richiesta, reindirizza l'utente a /campainCreator
-                    window.location.href = '/campainCreator';
-                });
-            }
-
-            function redirectToMyCampain(){
-                // Effettua una richiesta HTTP GET a /myCampain
-                fetch('/myCampains', {
-                    method: 'GET',
-                }).then(() => {
-                    // Dopo la richiesta, reindirizza l'utente a /myCampain
-                    window.location.href = '/myCampains';
-                });
-            }
-
-            function redirectToLogout(){
-                // Effettua una richiesta HTTP GET a /logout
-                fetch('/logout', {
-                    method: 'GET',
-                }).then(() => {
-                    // Dopo la richiesta, reindirizza l'utente a /logout
-                    window.location.href = '/logout';
-                });
-            }
-
-            function createCategories(){
-                // Effettua una richiesta HTTP GET a /createCategories
-                fetch('/createCategories', {
-                    method: 'GET',
-                }).then(() => {
-                    // Dopo la richiesta, reindirizza l'utente a /createCategories
-                    window.location.href = '/createCategories';
-                })
-            }
+        script(src="loginAndRegister/js/index.js")

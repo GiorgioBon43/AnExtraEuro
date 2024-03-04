@@ -5,6 +5,7 @@ import path from 'path';
 import database from './config/dataBase.js';
 import * as url from 'url';
 
+
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const app = express();
 
@@ -40,7 +41,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.render(specificViewPath, {loggedIn: req.session.loggedIn});
+  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
 });
 
 app.get('/login', (req, res) => {
@@ -64,11 +65,11 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/login/log', (req, res) => {
-  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
+  res.redirect('/');
 });
 
 app.get('/sigIn/create', (req, res) => {
-  res.render(specificViewPath);
+  res.redirect('/');
 });
 
 app.get('/campainCreator', (req, res) => {
@@ -139,7 +140,7 @@ app.post('/login/log', express.json(), (req, res) => {
 
     if(result.length > 0){      
       req.session.loggedIn = req.session.loggedIn || true;
-      req.session.data = req.session.data || username;
+      req.session.data = req.session.data || username; 
       req.session.abilitato = req.session.abilitato || false;
       if(result[0].ABILITATO === 1){
         req.session.abilitato = true;

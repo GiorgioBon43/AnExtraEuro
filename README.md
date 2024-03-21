@@ -37,7 +37,7 @@ BACK-END:
 
 SCHEMA E/R:
 -----------
-![Aggiungi corpo del testo](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/8236199e-f6ee-47ea-ade2-dd297fe23324)
+![Aggiungi corpo del testo](https://github.com/Giorgiobon/AnExtraEuro/assets/101709335/390bce34-15fb-4893-b73b-b77872f614ec)
 
 
 SCHEMA LOGICO:

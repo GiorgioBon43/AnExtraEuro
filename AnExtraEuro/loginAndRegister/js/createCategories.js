@@ -18,6 +18,6 @@ function home() {
     fetch('/login/log', {
         method: 'GET',
     }).then(() => {
-        window.location.href = '/login/log';
+        window.location.href = '/';
     });
 }

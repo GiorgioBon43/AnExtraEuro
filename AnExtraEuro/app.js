@@ -90,7 +90,6 @@ app.get('/createCategories/create', (req, res) => {
 
 app.get('/categorie', (req, res) => {
   const query = 'SELECT NOMINATIVO FROM CATEGORIA';
-
   database.query(query, (err, result) => {
     if (err) {
       console.error('Errore nella query:', err);

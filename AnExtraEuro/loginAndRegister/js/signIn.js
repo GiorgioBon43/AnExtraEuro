@@ -19,3 +19,11 @@ document.querySelector('form').addEventListener('submit', async function (e) {
         alert("Le password non coincidono");
     }
 });
+
+function home() {
+    fetch('/login/log', {
+        method: 'GET'
+    }).then(() => {
+        window.location.href = '/';
+    });
+}

@@ -13,3 +13,11 @@ document.querySelector('form').addEventListener('submit', async function (e) {
         window.location.href = '/login/log';
     });
 });
+
+function home() {
+    fetch('/login/log', {
+        method: 'GET'
+    }).then(() => {
+        window.location.href = '/';
+    });
+}

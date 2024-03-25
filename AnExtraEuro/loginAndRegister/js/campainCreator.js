@@ -18,8 +18,8 @@ document.querySelector('form').addEventListener('submit', async function (e) {
 
 function home() {
     fetch('/login/log', {
-        method: 'GET',
+        method: 'GET'
     }).then(() => {
-        window.location.href = '/login/log';
+        window.location.href = '/';
     });
 }

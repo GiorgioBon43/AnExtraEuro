@@ -12,5 +12,5 @@ database.connect((err) => {
 });
 
 const server = app.listen(PORT, () => {
-    console.log(`app running on PORT http://localhost:${PORT}`);
+    console.log(`app running on PORT https://localhost:${PORT}`);
 });

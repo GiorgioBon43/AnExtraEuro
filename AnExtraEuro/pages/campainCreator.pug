@@ -6,8 +6,6 @@ html
     body
         div(style="position: absolute; top: 10px; right: 10px;")
             p(style="color: red; font-weight: bold;") #{data}
-        div(style="position: absolute; top: 50px; right: 10px;")
-            button(onclick=`home()`) Torna alla home 
         form
             label(for="nomeProgetto")
                 i.fas.fa-user
@@ -41,5 +39,8 @@ html
                 input(type="text", name="descrizione", placeholder="Descrizione", required)
 
             input(type="submit" value="Crea")
+            
+        div(style="position: fixed; top: 50px; right: 10px; color: red; font-weight: bold")
+            button(onclick="home()") Home  
         
         script(src="loginAndRegister/js/campainCreator.js")

@@ -4,6 +4,8 @@ import morgan from 'morgan';
 import path from 'path';
 import database from './config/dataBase.js';
 import * as url from 'url';
+import jwt from 'jsonwebtoken';
+
 
 
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -35,13 +37,24 @@ app.use(
 
 // Aggiorna questo middleware per servire i file statici dalla directory 'loginAndRegister'
 app.use('/loginAndRegister', express.static(path.join(__dirname, 'loginAndRegister')));
+app.use('/pages', express.static(path.join(__dirname, 'pages')));
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
 app.get('/', (req, res) => {
-  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
+  const payload = {
+    userId: req.session.data,
+    username: req.session.data
+  };
+  
+  const secretKey = 'key_prova';
+  
+  const token = jwt.sign(payload, secretKey);
+  console.log(token);
+
+  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato});
 });
 
 app.get('/login', (req, res) => {
@@ -88,6 +101,10 @@ app.get('/createCategories/create', (req, res) => {
   res.redirect('/login/log');
 });
 
+/*app.get('/somma', (req, res) => { 
+  res.render(specificViewPath6, {projectData: projectData, data: req.session.data});
+});*/
+
 app.get('/categorie', (req, res) => {
   const query = 'SELECT NOMINATIVO FROM CATEGORIA';
   database.query(query, (err, result) => {
@@ -112,6 +129,38 @@ app.get('/myCampains', (req, res) => {
   });
 });
 
+app.get('/campainHome', (req, res) => {
+  const query = `SELECT * FROM PROGETTO ORDER BY RAND() LIMIT 5`;
+  database.query(query, (err, results) => {
+    if (err) {
+      console.error('Errore nella query SQL:', err);
+      throw err;
+    } else {
+      const progetti = results;
+      res.json({ progetti });
+    }
+  });
+});
+
+app.post('/somma', (req, res) => {
+  const id = req.body.projectId;
+  const query = `SELECT SUM(VALORE_DONAZIONE) AS SOMMA_DONAZIONI  FROM DONARE WHERE PROGETTO_ID = ?`;
+  database.query(query, [id], (err, results) => {
+    if (err) {
+      console.error('Errore nella query SQL:', err);
+      throw err;
+    } else {
+      if (results && results.length > 0 && results[0] && results[0].SOMMA_DONAZIONI !== null) {
+        const valore = results[0].SOMMA_DONAZIONI;
+        console.log(results);
+        res.json({ valore });
+      } else {
+          res.json({ valore: 0 });
+      }    
+    }
+  });
+});
+
 app.get('/viewCampaign/:id', (req, res) => {
   const campaignId = req.params.id;
   const query = 'SELECT * FROM PROGETTO WHERE ID = ?';
@@ -123,7 +172,7 @@ app.get('/viewCampaign/:id', (req, res) => {
     }
 
     const projectData = result[0];
-    res.render(specificViewPath6, {projectData: projectData, data: req.session.data });
+    res.render(specificViewPath6, {projectData: projectData, data: req.session.data});
   });
 });
 
@@ -194,10 +243,10 @@ app.post('/campaignCreator/create', express.json(), (req, res) => {
   });
 });
 
-app.post('/createCategories/create', (req, res) => { 
-  const { nomeCategoria, descrizione } = req.body;
-  const insertQuery = 'INSERT INTO CATEGORIA (NOMINATIVO, DESCRIZIONE) VALUES (?, ?)';
-  database.query(insertQuery, [nomeCategoria, descrizione], (insertError, insertResults) => {
+app.post('/donare', (req, res) => { 
+  const { VALORE_DONAZIONE,  ACCOUNT_NICKNAME, PROGETTO_ID } = req.body;
+  const insertQuery = 'INSERT INTO DONARE (ACCOUNT_NICKNAME, PROGETTO_ID, VALORE_DONAZIONE) VALUES (?, ?, ?)';
+  database.query(insertQuery, [ACCOUNT_NICKNAME , PROGETTO_ID, VALORE_DONAZIONE], (insertError, insertResults) => {
     if (insertError) {
       console.log(insertError);
       return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
@@ -208,6 +257,10 @@ app.post('/createCategories/create', (req, res) => {
         return res.status(404).send('I dati non esistono nel database');
       }
   });
+});
+
+app.post('/donare', (req, res) =>{
+
 });
 
 app.delete('/deleteCampaign/:id', (req, res) => {

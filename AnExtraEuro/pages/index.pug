@@ -2,6 +2,7 @@ doctype html
 html
     head
         title AnExtraEuro 
+        link(rel='stylesheet', href='pages/style/index.css')
         script(src="https://cdn.tailwindcss.com")
     body
         if !loggedIn
@@ -20,9 +21,31 @@ html
                 button(onclick="redirectToLogout()") Logout
             if admin 
                 div(style="position: absolute; top: 170px; right: 10px;")
-                    button(onclick="createCategories()") Aggiungi una categoria 
-            else 
-                div(style="position: absolute; top: 170px; right: 10px;")
-                    p non sei admin 
-                
+                    button(onclick="createCategories()") Aggiungi una categoria
+            div(style="display: flex; flex-direction: column; align-items: center; white-space: pre-line; margin-top: 100px;", name="progetti")
+            script.
+                fetch('/campainHome')
+                    .then(response => response.json())
+                    .then(data => {
+                        const select = document.querySelector('div[name="progetti"]');
+                        data.progetti.forEach(progetto => {
+                            const link = document.createElement('a');
+                            link.textContent = `NOME: ${progetto.NOME} DESCRIZIONE: ${progetto.DESCRIZIONE}`;
+                            link.style.marginBottom = '50px'; 
+                            link.href = '#';
+
+                            link.addEventListener('click', () => {
+                                fetch(`/viewCampaign/${progetto.ID}`, {
+                                    method: 'GET',
+                                }).then(() => {
+                                    window.location.href = `/viewCampaign/${progetto.ID}`;
+                                });
+                            });
+
+                            select.appendChild(link);
+                        });
+                    })
+                    .catch(error => console.error('Errore nel recupero delle categorie:', error));
+
+
         script(src="loginAndRegister/js/index.js")

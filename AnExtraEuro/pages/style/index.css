@@ -1,0 +1,49 @@
+/* index.css */
+
+/* Stili per il corpo della pagina */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Stili per i pulsanti */
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Stili per il testo all'interno dei pulsanti */
+button p {
+    margin: 0;
+}
+
+/* Stili per i div posizionati in alto a destra */
+.div-position {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+/* Stili specifici per il testo */
+.bold-red {
+    color: red;
+    font-weight: bold;
+}
+
+/* Stili per il div contenente i progetti */
+#progetti {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: pre-line;
+    margin-top: 100px;
+}

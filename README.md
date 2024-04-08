@@ -65,6 +65,7 @@ Requisiti
 + Node.js
 + Express - Install with command: npm install express --save.
 + Express Sessions - Install with command: npm install express-session --save.
++ JWT - Install with command: npm install jsonwentoken.
 + MySQL for Node.js - Install with command: npm install mysql --save.
 + React latest version -  Install with command: npm i react@latest react-dom@latest
 

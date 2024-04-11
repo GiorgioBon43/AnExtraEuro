@@ -10,13 +10,14 @@ VALUES
     ('Video Gioco', 'Gioco digitale'),
     ('Gioco da tavolo', 'Gioco cartaceo');
 
-INSERT INTO PROGETTO (NOME, DESCRIZIONE, ACCOUNT_NICKNAME, CATEGORIA_NOMINATIVO, OBBIETTIVO)
+INSERT INTO PROGETTO (NOME, DESCRIZIONE, ACCOUNT_NICKNAME, CATEGORIA_NOMINATIVO, OBBIETTIVO) 
 VALUES 
-    ('Progetto1', 'Progetto1', 'gio', 'Fumetto', 1000.00),
-    ('Progetto2', 'Progetto2', 'paolo', 'Video Gioco', 2000.00),
-    ('Progetto3', 'Progetto3', 'aronne', 'Gioco da tavolo', 3000.00),
-    ('Progetto4', 'Progetto4', 'gio', 'Fumetto', 4000.00),
-    ('Progetto5', 'Progetto5', 'paolo', 'Video Gioco', 5000.00);
+    ('La Grande Avventura del Fumetto Incantato', 'Un avventura epica nel mondo dei fumetti', 'gio', 'Fumetto', 1000.00), 
+    ('La Corsa all Impero Virtuale', 'Un gioco di strategia ambientato in un universo virtuale', 'paolo', 'Video Gioco', 2000.00), 
+    ('L Era dei Re: Conquista e Gloria', 'Un gioco da tavolo di conquista e dominio', 'aronne', 'Gioco da tavolo', 3000.00), 
+    ('La Saga degli Eroi Mascherati', 'Una storia avvincente di supereroi e avventure', 'gio', 'Fumetto', 4000.00), 
+    ('Il Mondo Perduto: Odissea nel Cyberspazio', 'Esplora un mondo virtuale pieno di misteri e pericoli', 'paolo', 'Video Gioco', 5000.00);
+
 
 INSERT INTO DONARE (ACCOUNT_NICKNAME, PROGETTO_ID, VALORE_DONAZIONE)
 VALUES 

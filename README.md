@@ -68,23 +68,6 @@ Requisiti
 + JWT - Install with command: npm install jsonwentoken.
 + MySQL for Node.js - Install with command: npm install mysql --save.
 + React latest version -  Install with command: npm i react@latest react-dom@latest
-[Uploadi@echo off
-
-rem Install Express
-npm install express --save
-
-rem Install Express Sessions
-npm install express-session --save
-
-rem Install JWT
-npm install jsonwebtoken
-
-rem Install MySQL for Node.js
-npm install mysql --save
-
-rem Install React latest version
-npm i react@latest react-dom@latestng InstallaLibrerie.bat…]()
-
 
 Run
 ----

@@ -7,7 +7,6 @@ import * as url from 'url';
 import jwt from 'jsonwebtoken';
 
 
-
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const app = express();
 
@@ -21,17 +20,16 @@ const specificViewPath5 = path.join(__dirname, 'pages', 'myCampains.pug');
 const specificViewPath6 = path.join(__dirname, 'pages', 'viewCampain.pug');
 const specificViewPath7 = path.join(__dirname, 'pages', 'createCategories.pug');
 
-// global middlewares
+// Global Middlewares
 app.use(morgan('dev'));
-app.use(express.static(path.join(__dirname, 'loginAndRegister')));
 app.use(express.json());
 app.use(
   session({
     name:'Session',
     secret: 'Secret',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false, expires:60000 }
+    resave: true,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 3600000 }
   })
 );
 
@@ -90,15 +88,16 @@ app.get('/campainCreator', (req, res) => {
 });
 
 app.get('/campaignCreator/create', (req, res) => {
-  res.redirect('/login/log');
+  res.redirect('/');
 });
 
 app.get('/createCategories', (req, res) => {
   res.render(specificViewPath7, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
 });
 
-app.get('/createCategories/create', (req, res) => { 
-  res.redirect('/login/log');
+app.get('/createCategories/create', (req, res) => {
+  req.session.loggedIn = true;
+  res.redirect('/');
 });
 
 app.get('/categorie', (req, res) => {
@@ -121,6 +120,7 @@ app.get('/myCampains', (req, res) => {
       console.error('Errore nella query SQL:', err);
       throw err;
     }
+    req.session.loggedIn = true;
     res.render(specificViewPath5, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato, campaigns: results });
   });
 });
@@ -196,6 +196,24 @@ app.post('/login/log', express.json(), (req, res) => {
   });
 });
 
+app.post('/createCategories/create', (req, res) =>{
+  const { nomeCategoria, descrizione } = req.body;
+  const query = 'INSERT INTO CATEGORIA (NOMINATIVO, DESCRIZIONE) VALUES ( ?, ?)';
+  database.query(query, [nomeCategoria, descrizione], (error, result) =>{
+    if (error) {
+      console.error('Errore nella query SQL:', error);
+      return res.status(500).send('Errore interno del server');
+    }
+
+    if(result.length > 0){      
+      req.session.loggedIn = true;
+      return res.redirect('/');
+    } else {
+      res.status(404).send('I dati non esistono nel database');
+    }
+  });
+});
+
 app.post('/sigIn/create', express.json(), (req, res) => {
   const { username, email, password } = req.body;
   // Controlla se l'email esiste già nel database
@@ -232,7 +250,8 @@ app.post('/campaignCreator/create', express.json(), (req, res) => {
       return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
     }
       if (insertResults.length > 0) {
-        return res.redirect('/login/log');
+        req.session.loggedIn = true;
+        return res.redirect('/');
       } else {
         return res.status(404).send('I dati non esistono nel database');
       }
@@ -248,7 +267,8 @@ app.post('/donare', (req, res) => {
       return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
     }
       if (insertResults.length > 0) {
-        return res.redirect('/login/log');
+        req.session.loggedIn = true;
+        return res.redirect('/');
       } else {
         return res.status(404).send('I dati non esistono nel database');
       }

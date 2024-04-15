@@ -101,10 +101,6 @@ app.get('/createCategories/create', (req, res) => {
   res.redirect('/login/log');
 });
 
-/*app.get('/somma', (req, res) => { 
-  res.render(specificViewPath6, {projectData: projectData, data: req.session.data});
-});*/
-
 app.get('/categorie', (req, res) => {
   const query = 'SELECT NOMINATIVO FROM CATEGORIA';
   database.query(query, (err, result) => {
@@ -257,10 +253,6 @@ app.post('/donare', (req, res) => {
         return res.status(404).send('I dati non esistono nel database');
       }
   });
-});
-
-app.post('/donare', (req, res) =>{
-
 });
 
 app.delete('/deleteCampaign/:id', (req, res) => {

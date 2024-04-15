@@ -60,9 +60,9 @@ GRAFICA:
 
 Requisiti
 ------------
-
 + MySQL Server >= 5.6 (you can install XAMP https://www.apachefriends.org/it/download.html)
 + Node.js
+Per i seguenti framework, vanno instllati tramite il file 'InstallaLibrerie.bat'. Il procedimento per eseguirlo è spiegato nella sezione 'Run'
 + Express - Install with command: npm install express --save.
 + Express Sessions - Install with command: npm install express-session --save.
 + JWT - Install with command: npm install jsonwentoken.
@@ -74,6 +74,7 @@ Run
 + start Server MySQL from XAMP 
 + (from the command promt):
 + + cd path/del/progetto
++ + InstallaLibrerie.bat
 + + node start.js
 + http://localhost:3000/
 

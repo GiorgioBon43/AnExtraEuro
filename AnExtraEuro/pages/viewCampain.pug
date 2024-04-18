@@ -23,7 +23,7 @@ html
                 .then(data => {
                     console.log('Dati ricevuti:', data);
                     const p = document.querySelector('p[name="DONAZIONI"]');
-                    p.textContent = "DONAZIONI: " + data.valore + " €";
+                    p.textContent = "DONAZIONI: " + data.sommaSoldi + " €";
                 })
                 .catch(error => console.error('Errore nel recupero delle categorie:', error));
         div(style="position: absolute; top: 10px; right: 10px;")

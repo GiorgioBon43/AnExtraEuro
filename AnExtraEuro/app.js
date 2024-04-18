@@ -147,11 +147,28 @@ app.post('/somma', (req, res) => {
       throw err;
     } else {
       if (results && results.length > 0 && results[0] && results[0].SOMMA_DONAZIONI !== null) {
-        const valore = results[0].SOMMA_DONAZIONI;
-        console.log(results);
-        res.json({ valore });
+        const sommaSoldi = results[0].SOMMA_DONAZIONI;
+        const query2 = 'SELECT OBBIETTIVO FROM PROGETTO WHERE ID = ?';
+        database.query(query2, [id], (err, result) => {
+          if(err){
+            console.error('Errore nella query SQL:', err);
+            throw err;
+          }else{
+            const obbiettivo = result[0].OBBIETTIVO;
+            if(obbiettivo < sommaSoldi){
+              const query3 = 'UPDATE PROGETTO SET CONCLUSO = TRUE WHERE ID = ?';
+              database.query(query3, [id], (err, result) => {
+                if(err){
+                  console.error('Errore nella query SQL:', err);
+                  throw err;
+                }
+              });
+            }
+          }
+        });
+        res.json({ sommaSoldi });
       } else {
-          res.json({ valore: 0 });
+          res.json({ sommaSoldi: 0 });
       }    
     }
   });

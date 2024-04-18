@@ -21,18 +21,13 @@ VALUES
 
 INSERT INTO DONARE (ACCOUNT_NICKNAME, PROGETTO_ID, VALORE_DONAZIONE)
 VALUES 
-    ('gio', 1, 100.00),
     ('paolo', 1, 200.00),
     ('aronne', 1, 300.00),
     ('gio', 2, 400.00),
-    ('paolo', 2, 500.00),
     ('aronne', 2, 600.00),
     ('gio', 3, 700.00),
     ('paolo', 3, 800.00),
-    ('aronne', 3, 900.00),
-    ('gio', 4, 1000.00),
     ('paolo', 4, 1100.00),
     ('aronne', 4, 1200.00),
     ('gio', 5, 1300.00),
-    ('paolo', 5, 1400.00),
     ('aronne', 5, 1500.00);

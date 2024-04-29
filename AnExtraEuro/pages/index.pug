@@ -2,7 +2,6 @@ doctype html
 html
     head
         title AnExtraEuro 
-        link(rel='stylesheet', href='pages/style/index.css')
         script(src="https://cdn.tailwindcss.com")
     body
         if !loggedIn
@@ -46,6 +45,5 @@ html
                         });
                     })
                     .catch(error => console.error('Errore nel recupero delle categorie:', error));
-
-
+                    
         script(src="loginAndRegister/js/index.js")

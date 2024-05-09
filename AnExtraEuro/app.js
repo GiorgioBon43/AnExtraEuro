@@ -19,6 +19,7 @@ const specificViewPath4 = path.join(__dirname, 'pages', 'campainCreator.pug');
 const specificViewPath5 = path.join(__dirname, 'pages', 'myCampains.pug');
 const specificViewPath6 = path.join(__dirname, 'pages', 'viewCampain.pug');
 const specificViewPath7 = path.join(__dirname, 'pages', 'createCategories.pug');
+const specificViewPath8 = path.join(__dirname, 'pages', 'api.pug');
 
 // Global Middlewares
 app.use(morgan('dev'));
@@ -52,7 +53,7 @@ app.get('/', (req, res) => {
   const token = jwt.sign(payload, secretKey);
   console.log(token);
 
-  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato});
+  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
 });
 
 app.get('/login', (req, res) => {
@@ -275,7 +276,7 @@ app.post('/campaignCreator/create', express.json(), (req, res) => {
   });
 });
 
-app.post('/donare', (req, res) => { 
+app.post('/donazione', (req, res) => { 
   const { VALORE_DONAZIONE,  ACCOUNT_NICKNAME, PROGETTO_ID } = req.body;
   const insertQuery = 'INSERT INTO DONARE (ACCOUNT_NICKNAME, PROGETTO_ID, VALORE_DONAZIONE) VALUES (?, ?, ?)';
   database.query(insertQuery, [ACCOUNT_NICKNAME , PROGETTO_ID, VALORE_DONAZIONE], (insertError, insertResults) => {
@@ -302,6 +303,84 @@ app.delete('/deleteCampaign/:id', (req, res) => {
       return res.status(500).json({ error: 'Errore nella query SQL' });
     }
     res.json({ message: 'Campagna eliminata con successo' });
+  });
+});
+
+app.get('/account',(req,res) =>{
+  const query = 'SELECT * FROM ACCOUNT';
+  database.query(query, (err, result) => {
+    if (err) {
+      console.error('Errore nella query:', err);
+      return res.status(500).send('Errore del server');
+    }
+
+    const account = result.map(row => ({
+      NICKNAME: row.NICKNAME,
+      EMAIL: row.EMAIL,
+      ABILITATO: row.ABILITATO
+    }));
+
+    // Utilizza res.json() per inviare direttamente il JSON come risposta
+    res.json({ account });
+  });
+});
+
+app.get('/categoria', (req, res) => {
+  const query = 'SELECT * FROM CATEGORIA';
+  database.query(query, (err, result) => {
+    if (err) {
+      console.error('Errore nella query:', err);
+      return res.status(500).send('Errore del server');
+    }
+
+    const categorie = result.map(row => ({
+      NOMINATIVO: row.NOMINATIVO,
+      DESCRIZIONE: row.DESCRIZIONE
+    }));
+
+    // Utilizza res.json() per inviare direttamente il JSON come risposta
+    res.json({ categorie });
+  });
+});
+
+app.get('/progetto',(req,res) =>{
+  const query = 'SELECT * FROM PROGETTO';
+  database.query(query, (err, result) => {
+    if (err) {
+      console.error('Errore nella query:', err);
+      return res.status(500).send('Errore del server');
+    }
+
+    const progetto = result.map(row => ({
+      NOME: row.NOME,
+      DESCRIZIONE: row.DESCRIZIONE,
+      ACCOUNT_NICKNAME: row.ACCOUNT_NICKNAME,
+      CATEGORIA_NOMINATIVO: row.CATEGORIA_NOMINATIVO,
+      OBBIETTIVO: row.OBBIETTIVO,
+      CONCLUSO: row.CONCLUSO
+    }));
+
+    //Utilizza res.json() per inviare direttamente il JSON come risposta
+    res.json({ progetto });
+  });
+});
+
+app.get('/donare',(req,res) =>{
+  const query = 'SELECT * FROM DONARE';
+  database.query(query, (err, result) => {
+    if (err) {
+      console.error('Errore nella query:', err);
+      return res.status(500).send('Errore del server');
+    }
+
+    const donare = result.map(row => ({
+      ACCOUNT_NICKNAME: row.ACCOUNT_NICKNAME,
+      VALORE_DONAZIONE: row.VALORE_DONAZIONE,
+      DATA: row.DATA
+    }));
+
+    //Utilizza res.json() per inviare direttamente il JSON come risposta
+    res.json({ donare });
   });
 });
 

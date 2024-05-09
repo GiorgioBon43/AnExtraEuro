@@ -27,7 +27,7 @@ html
                 })
                 .catch(error => console.error('Errore nel recupero delle categorie:', error));
         div(style="position: absolute; top: 10px; right: 10px;")
-            p(style="color: red; font-weight: bold;") #{data} 
+            p(name="DATA", style="color: red; font-weight: bold;") #{data} 
         
         div(style="position: fixed; top: 50px; right: 10px; color: red; font-weight: bold")
             button(onclick="home()") Home
@@ -42,10 +42,10 @@ html
             document.querySelector('form').addEventListener('submit', async function (e) {
                 e.preventDefault();
                 const VALORE_DONAZIONE = document.querySelector("input[name='quota']").value;
-                const ACCOUNT_NICKNAME = document.querySelector("p[name='PROPRIETARIO']").textContent;
+                const ACCOUNT_NICKNAME = document.querySelector("p[name='DATA']").textContent;
                 const PROGETTO_ID = document.querySelector("p[name='ID']").textContent;
 
-                const res = await fetch('/donare', {
+                const res = await fetch('/donazione', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

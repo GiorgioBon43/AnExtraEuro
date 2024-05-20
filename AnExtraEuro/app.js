@@ -19,7 +19,6 @@ const specificViewPath4 = path.join(__dirname, 'pages', 'campainCreator.pug');
 const specificViewPath5 = path.join(__dirname, 'pages', 'myCampains.pug');
 const specificViewPath6 = path.join(__dirname, 'pages', 'viewCampain.pug');
 const specificViewPath7 = path.join(__dirname, 'pages', 'createCategories.pug');
-const specificViewPath8 = path.join(__dirname, 'pages', 'api.pug');
 
 // Global Middlewares
 app.use(morgan('dev'));
@@ -44,8 +43,8 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
   const payload = {
-    userId: req.session.data,
-    username: req.session.data
+    userId: req.session.id,
+    username: req.session.name
   };
   
   const secretKey = 'key_prova';
@@ -53,7 +52,7 @@ app.get('/', (req, res) => {
   const token = jwt.sign(payload, secretKey);
   console.log(token);
 
-  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
+  res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.name, id: req.session.Userid, admin: req.session.abilitato });
 });
 
 app.get('/login', (req, res) => {
@@ -85,7 +84,7 @@ app.get('/sigIn/create', (req, res) => {
 });
 
 app.get('/campainCreator', (req, res) => {
-  res.render(specificViewPath4, { data: req.session.data });
+  res.render(specificViewPath4, { loggedIn: req.session.loggedIn, data: req.session.name, id: req.session.Userid, admin: req.session.abilitato });
 });
 
 app.get('/campaignCreator/create', (req, res) => {
@@ -93,7 +92,7 @@ app.get('/campaignCreator/create', (req, res) => {
 });
 
 app.get('/createCategories', (req, res) => {
-  res.render(specificViewPath7, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
+  res.render(specificViewPath7, { loggedIn: req.session.loggedIn, data: req.session.name, id: req.session.Userid, admin: req.session.abilitato });
 });
 
 app.get('/createCategories/create', (req, res) => {
@@ -114,15 +113,17 @@ app.get('/categorie', (req, res) => {
   });
 });
 
-app.get('/myCampains', (req, res) => {
-  const query = `SELECT * FROM PROGETTO WHERE ACCOUNT_NICKNAME = ?`;
-  database.query(query, [req.session.data], (err, results) => {
+app.get('/myCampains/:id', (req, res) => {
+  const query = `SELECT * FROM PROGETTO WHERE ACCOUNT_ID = ?`;
+  const UserId = req.params.id;
+  database.query(query, [UserId], (err, results) => {
     if (err) {
       console.error('Errore nella query SQL:', err);
       throw err;
     }
     req.session.loggedIn = true;
-    res.render(specificViewPath5, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato, campaigns: results });
+    const campaigns = results;
+    res.render(specificViewPath5, { loggedIn: req.session.loggedIn, data: req.session.name, id: req.session.Userid, admin: req.session.abilitato, campaigns: campaigns });
   });
 });
 
@@ -186,7 +187,7 @@ app.get('/viewCampaign/:id', (req, res) => {
     }
 
     const projectData = result[0];
-    res.render(specificViewPath6, {projectData: projectData, data: req.session.data});
+    res.render(specificViewPath6, {projectData: projectData, loggedIn: req.session.loggedIn, data: req.session.name, id: req.session.Userid, admin: req.session.abilitato});
   });
 });
 
@@ -202,12 +203,13 @@ app.post('/login/log', express.json(), (req, res) => {
 
     if(result.length > 0){      
       req.session.loggedIn = req.session.loggedIn || true;
-      req.session.data = req.session.data || username; 
+      req.session.name = req.session.data || username;
+      req.session.Userid = req.session.Userid || result[0].ID; 
       req.session.abilitato = req.session.abilitato || false;
       if(result[0].ABILITATO === 1){
         req.session.abilitato = true;
       }
-      return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.data, admin: req.session.abilitato });
+      return res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.name, id: req.session.Userid, admin: req.session.abilitato });
     } else {
       res.status(404).send('I dati non esistono nel database');
     }
@@ -306,6 +308,7 @@ app.delete('/deleteCampaign/:id', (req, res) => {
   });
 });
 
+//Esposizione API
 app.get('/account',(req,res) =>{
   const query = 'SELECT * FROM ACCOUNT';
   database.query(query, (err, result) => {

@@ -28,16 +28,6 @@ function redirectToCreateCampain() {
     });
 }
 
-function redirectToMyCampain(){
-    // Effettua una richiesta HTTP GET a /myCampain
-    fetch('/myCampains', {
-        method: 'GET',
-    }).then(() => {
-        // Dopo la richiesta, reindirizza l'utente a /myCampain
-        window.location.href = '/myCampains';
-    });
-}
-
 function redirectToLogout(){
     // Effettua una richiesta HTTP GET a /logout
     fetch('/logout', {

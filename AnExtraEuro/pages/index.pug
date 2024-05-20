@@ -4,6 +4,8 @@ html
         title AnExtraEuro 
         script(src="https://cdn.tailwindcss.com")
     body
+        div(style="display: flex; justify-content: center; margin-top: 20px;")
+                input(type="text", id="searchBar", placeholder="Cerca progetti...", style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; width: 300px;")
         if !loggedIn
             div(style="position: absolute; top: 10px; right: 10px;")
                 button(onclick="redirectToLogin()") Accedi
@@ -21,8 +23,23 @@ html
             if admin 
                 div(style="position: absolute; top: 170px; right: 10px;")
                     button(onclick="createCategories()") Aggiungi una categoria
-            div(style="display: flex; flex-direction: column; align-items: center; white-space: pre-line; margin-top: 100px;", name="progetti")
+
+        div(style="display: flex; flex-direction: column; align-items: center; white-space: pre-line; margin-top: 100px;", name="progetti")
+                
             script.
+                document.getElementById('searchBar').addEventListener('input', function() {
+                    const filter = this.value.toLowerCase();
+                    const projects = document.querySelectorAll('div[name="progetti"] a');
+                    projects.forEach(project => {
+                        const text = project.textContent.toLowerCase();
+                        if (text.includes(filter)) {
+                            project.style.display = '';
+                        } else {
+                            project.style.display = 'none';
+                        }
+                    });
+                });
+
                 fetch('/campainHome')
                     .then(response => response.json())
                     .then(data => {
@@ -40,10 +57,19 @@ html
                                     window.location.href = `/viewCampaign/${progetto.ID}`;
                                 });
                             });
-
                             select.appendChild(link);
                         });
                     })
                     .catch(error => console.error('Errore nel recupero delle categorie:', error));
-                    
+                
+                function redirectToMyCampain(){
+                    // Effettua una richiesta HTTP GET a /myCampain
+                    fetch(`/myCampains/${id}`, {
+                        method: 'GET',
+                    }).then(() => {
+                        // Dopo la richiesta, reindirizza l'utente a /myCampain
+                        window.location.href = `/myCampains/${id}`;
+                    });
+                }
+
         script(src="loginAndRegister/js/index.js")

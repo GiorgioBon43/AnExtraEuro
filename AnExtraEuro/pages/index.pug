@@ -29,16 +29,30 @@ html
             script.
                 document.getElementById('searchBar').addEventListener('input', function() {
                     const filter = this.value.toLowerCase();
-                    const projects = document.querySelectorAll('div[name="progetti"] a');
-                    projects.forEach(project => {
-                        const text = project.textContent.toLowerCase();
-                        if (text.includes(filter)) {
-                            project.style.display = '';
-                        } else {
-                            project.style.display = 'none';
-                        }
-                    });
+                    fetch(`/searchProjects?query=${filter}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            const select = document.querySelector('div[name="progetti"]');
+                            select.innerHTML = ''; // Clear previous results
+                            data.progetti.forEach(progetto => {
+                                const link = document.createElement('a');
+                                link.textContent = `NOME: ${progetto.NOME} DESCRIZIONE: ${progetto.DESCRIZIONE}`;
+                                link.style.marginBottom = '50px';
+                                link.href = '#';
+
+                                link.addEventListener('click', () => {
+                                    fetch(`/viewCampaign/${progetto.ID}`, {
+                                        method: 'GET',
+                                    }).then(() => {
+                                        window.location.href = `/viewCampaign/${progetto.ID}`;
+                                    });
+                                });
+                                select.appendChild(link);
+                            });
+                        })
+                        .catch(error => console.error('Errore nel recupero delle categorie:', error));
                 });
+
 
                 fetch('/campainHome')
                     .then(response => response.json())

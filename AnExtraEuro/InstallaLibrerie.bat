@@ -6,6 +6,9 @@ npm install express --save
 rem Install Express Sessions
 npm install express-session --save
 
+rem Install Express PG
+npm install pg --save
+
 rem Install JWT
 npm install jsonwebtoken
 

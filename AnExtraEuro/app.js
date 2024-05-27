@@ -23,6 +23,7 @@ const specificViewPath7 = path.join(__dirname, 'pages', 'createCategories.pug');
 // Global Middlewares
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     name:'Session',
@@ -385,6 +386,19 @@ app.get('/donare',(req,res) =>{
     //Utilizza res.json() per inviare direttamente il JSON come risposta
     res.json({ donare });
   });
+});
+
+app.get('/searchProjects', async (req, res) => {
+  const queryData = req.query.query.toLowerCase();
+  const query = 'SELECT ID, NOME, DESCRIZIONE FROM PROGETTO WHERE LOWER(NOME) LIKE $1 OR LOWER(DESCRIZIONE) LIKE $1';
+  try {
+      const results = await pool.query(query, [`%${queryData}%`]);
+      
+      res.json({ progetti: results.rows });
+  } catch (err) {
+      console.error('Errore nel recupero dei progetti:', err);
+      res.status(500).send('Errore nel recupero dei progetti');
+  }
 });
 
 export default app;

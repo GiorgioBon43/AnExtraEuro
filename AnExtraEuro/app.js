@@ -179,7 +179,11 @@ app.post('/somma', (req, res) => {
 
 app.get('/viewCampaign/:id', (req, res) => {
   const campaignId = req.params.id;
-  const query = 'SELECT * FROM PROGETTO WHERE ID = ?';
+  const query = `
+  SELECT PROGETTO.*, ACCOUNT.NICKNAME AS ACCOUNT_NICKNAME 
+  FROM PROGETTO
+  JOIN ACCOUNT ON PROGETTO.ACCOUNT_ID = ACCOUNT.ID
+  WHERE PROGETTO.ID = ?`;
 
   database.query(query, [campaignId], (err, result) => {
     if (err) {
@@ -280,9 +284,9 @@ app.post('/campaignCreator/create', express.json(), (req, res) => {
 });
 
 app.post('/donazione', (req, res) => { 
-  const { VALORE_DONAZIONE,  ACCOUNT_NICKNAME, PROGETTO_ID } = req.body;
-  const insertQuery = 'INSERT INTO DONARE (ACCOUNT_NICKNAME, PROGETTO_ID, VALORE_DONAZIONE) VALUES (?, ?, ?)';
-  database.query(insertQuery, [ACCOUNT_NICKNAME , PROGETTO_ID, VALORE_DONAZIONE], (insertError, insertResults) => {
+  const { VALORE_DONAZIONE,  ACCOUNT_ID, PROGETTO_ID } = req.body;
+  const insertQuery = 'INSERT INTO DONARE (ACCOUNT_ID, PROGETTO_ID, VALORE_DONAZIONE) VALUES (?, ?, ?)';
+  database.query(insertQuery, [ACCOUNT_ID , PROGETTO_ID, VALORE_DONAZIONE], (insertError, insertResults) => {
     if (insertError) {
       console.log(insertError);
       return res.status(500).json({ error: 'Errore durante l\'inserimento nella tabella PROGETTO.' });
@@ -390,15 +394,24 @@ app.get('/donare',(req,res) =>{
 
 app.get('/searchProjects', async (req, res) => {
   const queryData = req.query.query.toLowerCase();
-  const query = 'SELECT ID, NOME, DESCRIZIONE FROM PROGETTO WHERE LOWER(NOME) LIKE $1 OR LOWER(DESCRIZIONE) LIKE $1';
-  try {
-      const results = await pool.query(query, [`%${queryData}%`]);
-      
-      res.json({ progetti: results.rows });
-  } catch (err) {
-      console.error('Errore nel recupero dei progetti:', err);
-      res.status(500).send('Errore nel recupero dei progetti');
+  let query;
+  let queryParams;
+
+  if (queryData === 'concluso') {
+    query = 'SELECT ID, NOME, DESCRIZIONE FROM PROGETTO WHERE CONCLUSO = 1';
+    queryParams = [];
+  } else {
+    query = 'SELECT ID, NOME, DESCRIZIONE FROM PROGETTO WHERE LOWER(NOME) LIKE ?';
+    queryParams = [`%${queryData}%`, `%${queryData}%`];
   }
+
+  database.query(query, queryParams, (err, results) => {
+    if (err) {
+      console.error('Errore nel recupero dei progetti:', err);
+      return res.status(500).send('Errore nel recupero dei progetti'); 
+    }
+    res.json({ progetti: results });
+  });
 });
 
 export default app;

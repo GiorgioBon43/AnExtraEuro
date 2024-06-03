@@ -17,7 +17,7 @@ html
             div(style="position: absolute; top: 50px; right: 10px;")
                 button(onclick="redirectToCreateCampain()") Crea un tuo fondo
             div(style="position: absolute; top: 90px; right: 10px;")
-                button(onclick="redirectToMyCampain()") Visualizza i tuoi fondi
+                button( id="myButton", onclick="redirectToMyCampain()", data-id=`${id}`) Visualizza i tuoi fondi
             div(style="position: absolute; top: 130px; right: 10px;")
                 button(onclick="redirectToLogout()") Logout
             if admin 
@@ -76,14 +76,22 @@ html
                     })
                     .catch(error => console.error('Errore nel recupero delle categorie:', error));
                 
-                function redirectToMyCampain(){
-                    // Effettua una richiesta HTTP GET a /myCampain
-                    fetch(`/myCampains/${id}`, {
-                        method: 'GET',
-                    }).then(() => {
-                        // Dopo la richiesta, reindirizza l'utente a /myCampain
-                        window.location.href = `/myCampains/${id}`;
-                    });
-                }
+                document.addEventListener("DOMContentLoaded", function() {
+                    // Recupera l'ID dall'attributo data-id del bottone
+                    var id = document.getElementById("myButton").getAttribute("data-id");
+
+                    function redirectToMyCampain() {
+                        // Effettua una richiesta HTTP GET a /myCampains
+                        fetch(`/myCampains/${id}`, {
+                            method: 'GET',
+                        }).then(() => {
+                            // Dopo la richiesta, reindirizza l'utente a /myCampains
+                            window.location.href = `/myCampains/${id}`;
+                        });
+                    }
+
+                    // Aggiungi l'evento click al bottone
+                    document.getElementById("myButton").addEventListener("click", redirectToMyCampain);
+                });
 
         script(src="loginAndRegister/js/index.js")

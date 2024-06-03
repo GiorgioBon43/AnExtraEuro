@@ -11,6 +11,7 @@ html
             p(name="CATEGORIA") #{projectData.CATEGORIA_NOMINATIVO}
             p(name="OBBIETTIVO") #{projectData.OBBIETTIVO} €
             p(name="DONAZIONI")
+            p(data-id=`${id}`)
             script.
                 fetch('/somma', {
                     method: 'POST',
@@ -32,7 +33,7 @@ html
         div(style="position: fixed; top: 50px; right: 10px; color: red; font-weight: bold")
             button(onclick="home()") Home
         
-        if projectData.ACCOUNT_NICKNAME !== data
+        if loggedIn && projectData.ACCOUNT_NICKNAME !== data
             form
                 div 
                     input(type="number", name="quota", placeholder="Inserisci quanto vuoi donare", required, min="0", step="1")
@@ -42,7 +43,7 @@ html
             document.querySelector('form').addEventListener('submit', async function (e) {
                 e.preventDefault();
                 const VALORE_DONAZIONE = document.querySelector("input[name='quota']").value;
-                const ACCOUNT_NICKNAME = document.querySelector("p[name='DATA']").textContent;
+                const ACCOUNT_ID = document.querySelector('[data-id]').getAttribute('data-id');
                 const PROGETTO_ID = document.querySelector("p[name='ID']").textContent;
 
                 const res = await fetch('/donazione', {
@@ -50,7 +51,7 @@ html
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ VALORE_DONAZIONE,  ACCOUNT_NICKNAME, PROGETTO_ID})
+                    body: JSON.stringify({ VALORE_DONAZIONE,  ACCOUNT_ID, PROGETTO_ID})
                 }).then(() => {
                     window.location.href = `/`;
                 });

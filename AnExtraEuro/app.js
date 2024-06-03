@@ -52,6 +52,7 @@ app.get('/', (req, res) => {
   
   const token = jwt.sign(payload, secretKey);
   console.log(token);
+  req.session.loggedIn = req.session.loggedIn || false;
 
   res.render(specificViewPath, { loggedIn: req.session.loggedIn, data: req.session.name, id: req.session.Userid, admin: req.session.abilitato });
 });
@@ -158,7 +159,7 @@ app.post('/somma', (req, res) => {
             throw err;
           }else{
             const obbiettivo = result[0].OBBIETTIVO;
-            if(obbiettivo < sommaSoldi){
+            if(obbiettivo <= sommaSoldi){
               const query3 = 'UPDATE PROGETTO SET CONCLUSO = TRUE WHERE ID = ?';
               database.query(query3, [id], (err, result) => {
                 if(err){

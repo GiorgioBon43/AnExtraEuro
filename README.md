@@ -74,6 +74,6 @@ Run
 + (from the command promt):
 + + cd path/del/progetto
 + + InstallaLibrerie.bat
-+ + node start.js
++ + npm start
 + http://localhost:3000/
 
